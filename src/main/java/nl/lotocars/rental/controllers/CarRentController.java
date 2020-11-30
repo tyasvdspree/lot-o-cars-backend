@@ -1,0 +1,62 @@
+package nl.lotocars.rental.controllers;
+
+import lombok.RequiredArgsConstructor;
+import nl.lotocars.rental.Errors.CarNotFoundException;
+import nl.lotocars.rental.dtos.CarDto;
+import nl.lotocars.rental.entities.Car;
+import nl.lotocars.rental.mapper.CarMapper;
+import nl.lotocars.rental.services.CarService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+@RestController
+@ResponseBody
+@RequiredArgsConstructor
+@RequestMapping("renting")
+public class CarRentController {
+
+    private final CarService carService;
+    private final CarMapper carMapper;
+
+    @GetMapping()
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Collection<CarDto>> getCars(){
+        Collection<Car> cars = carService.getCars();
+        Collection<CarDto> mappedCars = cars.parallelStream()
+                .map(carMapper::mapToDestination).collect(Collectors.toList());
+        return new ResponseEntity<>(mappedCars, HttpStatus.OK);
+    }
+
+    @GetMapping("/{numberPlate}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<CarDto> getCar(@PathVariable String numberPlate){
+        Optional<Car> car = carService.getCar(numberPlate);
+        if(!car.isPresent()){
+            throw new CarNotFoundException();
+        }
+
+        CarDto mappedCar = carMapper.mapToDestination(car.get());
+        return new ResponseEntity<>(mappedCar, HttpStatus.OK);
+    }
+
+    /*@PutMapping("/")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<CarDto> addCar(@RequestBody Car car){
+
+    }
+
+    @PostMapping("/{numberPlate}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<CarDto> changeCar(@PathVariable String numberPlate, @RequestBody){
+
+    }
+
+    @DeleteMapping("/{numberPlate}")
+    @ResponseStatus(HttpStatus.OK)
+    public*/
+}
