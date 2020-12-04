@@ -12,7 +12,8 @@ import java.util.Optional;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class UserService {
+public class UserService{
+
     private final UserRepository userRepository;
 
     public Collection<User> getUsers() {
@@ -20,6 +21,6 @@ public class UserService {
     }
 
     public Optional<User> getUser(Long userId){
-        return userRepository.findById(userId);
+        return Optional.ofNullable(userRepository.getOne(userId));
     }
 }

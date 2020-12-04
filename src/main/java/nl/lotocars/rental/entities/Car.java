@@ -5,7 +5,6 @@ import lombok.Setter;
 import nl.lotocars.rental.Enum.Transmission;
 
 import javax.persistence.*;
-import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import java.util.Date;

@@ -1,12 +1,14 @@
 package nl.lotocars.rental.reposetories;
 
+import nl.lotocars.rental.entities.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.io.Serializable;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository <T, ID extends Serializable> extends BaseRepository {
-    Optional<T> findByName(String name);
-    Optional<T> findById(Long id);
+public interface UserRepository extends JpaRepository<User, Long> {
+
+    Optional<User> findByUsername(String name);
+    Optional<User> findById(Long id);
 }

@@ -7,7 +7,8 @@ import javax.persistence.Entity;
 
 @Getter
 @Setter
-@Entity
+
+@Entity()
 public class BrokerFeeRequest extends BaseEntity {
     private double proposedFee;
     private boolean isAccepted;
