@@ -12,7 +12,7 @@ public class UserDto {
 
     private String username;
 
-    private Location address;
+    private Location location;
 
     private Collection<String> roles;
 }

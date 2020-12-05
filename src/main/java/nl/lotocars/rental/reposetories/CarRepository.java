@@ -1,12 +1,14 @@
 package nl.lotocars.rental.reposetories;
 
+import nl.lotocars.rental.entities.Car;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
 import java.util.Optional;
 
 @Repository
-public interface CarRepository <T, ID extends Serializable> extends BaseRepository {
+public interface CarRepository extends JpaRepository<Car, Long> {
 
-    Optional<T> findByNumberPlate(String numberPlate);
+    Optional<Car> findByNumberPlate(String numberPlate);
 }

@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public abstract class UserMapper {
+
     @Mapping(target = "roles", expression = "java(mapRoles(source))")
     public abstract UserDto mapToDestination(User source);
 

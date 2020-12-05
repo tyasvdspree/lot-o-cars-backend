@@ -1,11 +1,8 @@
 package nl.lotocars.rental.controllers;
 
 import lombok.RequiredArgsConstructor;
-import nl.lotocars.rental.Errors.CarNotFoundException;
 import nl.lotocars.rental.Errors.UserNotFoundException;
-import nl.lotocars.rental.dtos.CarDto;
 import nl.lotocars.rental.dtos.UserDto;
-import nl.lotocars.rental.entities.Car;
 import nl.lotocars.rental.entities.User;
 import nl.lotocars.rental.mapper.UserMapper;
 import nl.lotocars.rental.services.UserService;

@@ -15,7 +15,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@ResponseBody
 @RequiredArgsConstructor
 @RequestMapping("renting")
 public class CarRentController {
@@ -44,19 +43,21 @@ public class CarRentController {
         return new ResponseEntity<>(mappedCar, HttpStatus.OK);
     }
 
-    /*@PutMapping("/")
+    @PutMapping("/")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<CarDto> addCar(@RequestBody Car car){
-
+    public ResponseEntity<CarDto> addCar(@RequestBody CarDto car){
+        return new ResponseEntity<>(car, HttpStatus.OK);
     }
-
+/*
     @PostMapping("/{numberPlate}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<CarDto> changeCar(@PathVariable String numberPlate, @RequestBody){
+    public ResponseEntity<CarDto> changeCar(@PathVariable String numberPlate, @RequestBody CarDto car){
 
     }
 
     @DeleteMapping("/{numberPlate}")
     @ResponseStatus(HttpStatus.OK)
-    public*/
+    public ResponseEntity<CarDto> deleteCar(@PathVariable String numberPlate){
+
+    }*/
 }

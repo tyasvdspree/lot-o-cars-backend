@@ -1,9 +1,10 @@
 package nl.lotocars.rental.reposetories;
 
+import nl.lotocars.rental.entities.Role;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import java.io.Serializable;
 
 @Repository
-public interface RoleRepository<T, ID extends Serializable> extends BaseRepository<T, ID>{
+public interface RoleRepository extends JpaRepository<Role, Long> {
 
 }

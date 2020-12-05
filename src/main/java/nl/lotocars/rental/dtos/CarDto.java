@@ -12,6 +12,7 @@ import java.util.Date;
 @Setter
 public class CarDto {
 
+    private Long id;
     private User user;
     private Location Location;
 
