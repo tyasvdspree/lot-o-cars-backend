@@ -3,6 +3,7 @@ package nl.lotocars.rental.entities;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -11,8 +12,8 @@ import javax.persistence.Table;
 @Entity(name = "location")
 @Table(name = "LOCATION")
 public class Location extends BaseEntity{
-    private String Long;
-    private String lat;
+    private String longitude;
+    private String latitude;
     private String addressLine1;
     private String addressLine2;
     private String city;
