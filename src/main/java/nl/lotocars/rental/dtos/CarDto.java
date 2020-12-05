@@ -22,6 +22,7 @@ public class CarDto {
     private String make;
     private String model;
     private String body;
+    private String color;
     private Transmission.transmission transmission;
     private String fuel;
     private double fuelUsage;
