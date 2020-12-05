@@ -11,12 +11,12 @@ import javax.persistence.Table;
 @Entity(name = "location")
 @Table(name = "LOCATION")
 public class Location extends BaseEntity{
-    private String Long;
-    private String lat;
+    private String longitude;
+    private String latitude;
     private String addressLine1;
     private String addressLine2;
     private String city;
     private String zipcode;
-    private int CountryCode;
-    private String Municipality;
+    private int countryCode;
+    private String municipality;
 }
