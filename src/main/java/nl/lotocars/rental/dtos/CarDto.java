@@ -29,6 +29,7 @@ public class CarDto {
     private int doors;
     private int seats;
     private long bootSpaceInLiters;
+    private double rentPricePerHour;
     private boolean navigation;
     private boolean airco;
     private boolean smokingIsAllowed;

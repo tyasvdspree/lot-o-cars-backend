@@ -52,6 +52,8 @@ public class Car extends BaseEntity {
     private int seats;
     @NotEmpty
     private long bootSpaceInLiters;
+    @NotEmpty
+    private double rentPricePerHour;
     private boolean navigation;
     private boolean airco;
     private boolean smokingIsAllowed;

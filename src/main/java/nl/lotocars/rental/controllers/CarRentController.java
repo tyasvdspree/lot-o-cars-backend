@@ -44,6 +44,19 @@ public class CarRentController {
         return new ResponseEntity<>(mappedCar, HttpStatus.OK);
     }
 
+    @GetMapping("/search")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Collection<CarDto>> search(
+        @RequestParam("city") String city,
+        @RequestParam("make") String make,
+        @RequestParam("color") String color
+    ){
+        Collection<Car> cars = carService.searchCars(city, make, color);
+        Collection<CarDto> mappedCars = cars.parallelStream()
+                .map(carMapper::mapToDestination).collect(Collectors.toList());
+        return new ResponseEntity<>(mappedCars, HttpStatus.OK);
+    }
+
     @PutMapping("/")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<CarDto> addCar(@RequestBody CarDto car){

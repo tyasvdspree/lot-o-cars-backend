@@ -23,4 +23,11 @@ public class CarService {
     public Optional<Car> getCar(String numberPlate){
         return carRepository.findByNumberPlate(numberPlate);
     }
+
+    public Collection<Car> searchCars(String city, String make, String color) {
+        if (city == "") city = null;
+        if (make == "") make = null;
+        if (color == "") color = null;
+        return carRepository.findBySearchOptions(city, make, color);
+    }
 }
