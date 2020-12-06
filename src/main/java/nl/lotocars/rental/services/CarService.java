@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -24,10 +25,29 @@ public class CarService {
         return carRepository.findByNumberPlate(numberPlate);
     }
 
-    public Collection<Car> searchCars(String city, String make, String color) {
-        if (city == "") city = null;
-        if (make == "") make = null;
-        if (color == "") color = null;
-        return carRepository.findBySearchOptions(city, make, color);
+    public Collection<Car> searchCars(
+            String city,
+            String make,
+            String model,
+            String color,
+            String fuel,
+            String modelyear,
+            String doors,
+            String seats,
+            String bootspace,
+            String nonsmoking
+    ) {
+        return carRepository.findBySearchOptions(
+                city == "" ? null : city,
+                make == "" ? null : make,
+                model == "" ? null : model,
+                color == "" ? null : color,
+                fuel == "" ? null : fuel,
+                modelyear == "" ? null : new Date(Integer.parseInt(modelyear), 1, 1),
+                doors == "" ? 0 : Integer.parseInt(doors),
+                seats == "" ? 0 : Integer.parseInt(seats),
+                bootspace == "" ? 0 : Integer.parseInt(bootspace),
+                nonsmoking == "" ? null : Boolean.parseBoolean(nonsmoking)
+        );
     }
 }
