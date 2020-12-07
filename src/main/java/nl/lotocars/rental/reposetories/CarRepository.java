@@ -25,7 +25,7 @@ public interface CarRepository extends JpaRepository<Car, Long> {
             "(:doors = 0 OR c.doors = :doors) AND " +
             "(:seats = 0 OR c.seats = :seats) AND " +
             "(:bootspace = 0 OR c.bootSpaceInLiters >= :bootspace) AND " +
-            "(:nonsmoking is null OR c.smokingIsAllowed = :nonsmoking)"
+            "(:nonsmoking = -1 OR c.smokingIsAllowed != :nonsmoking)"
     )
     Collection<Car> findBySearchOptions(
             @Param("city") String city,
@@ -37,7 +37,7 @@ public interface CarRepository extends JpaRepository<Car, Long> {
             @Param("doors") int doors,
             @Param("seats") int seats,
             @Param("bootspace") int bootspace,
-            @Param("nonsmoking") Boolean nonsmoking
+            @Param("nonsmoking") int nonsmoking
     );
 
 }

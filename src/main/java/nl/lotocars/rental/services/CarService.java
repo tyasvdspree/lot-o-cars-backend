@@ -47,7 +47,7 @@ public class CarService {
                 doors == "" ? 0 : Integer.parseInt(doors),
                 seats == "" ? 0 : Integer.parseInt(seats),
                 bootspace == "" ? 0 : Integer.parseInt(bootspace),
-                nonsmoking == "" ? null : Boolean.parseBoolean(nonsmoking)
+                nonsmoking == "" ? -1 : Integer.parseInt(nonsmoking)
         );
     }
 }
