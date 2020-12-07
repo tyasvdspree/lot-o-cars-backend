@@ -23,4 +23,10 @@ public class CarService {
     public Optional<Car> getCar(String numberPlate){
         return carRepository.findByNumberPlate(numberPlate);
     }
+
+    @Transactional(readOnly = false)
+    public Car registerCar(Car car){
+        carRepository.save(car);
+        return car;
+    }
 }

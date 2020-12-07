@@ -2,7 +2,11 @@ package nl.lotocars.rental.services;
 
 import lombok.RequiredArgsConstructor;
 import nl.lotocars.rental.entities.User;
+/*import nl.lotocars.rental.entities.UserPrincipal;*/
 import nl.lotocars.rental.reposetories.UserRepository;
+/*import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;*/
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,7 +16,7 @@ import java.util.Optional;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class UserService{
+public class UserService/* implements UserDetailsService */{
 
     private final UserRepository userRepository;
 
@@ -23,4 +27,11 @@ public class UserService{
     public Optional<User> getUser(Long userId){
         return Optional.ofNullable(userRepository.getOne(userId));
     }
+
+    /*@Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        var user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Username: " + username + " not found"));
+        return new UserPrincipal(user);
+    }*/
 }

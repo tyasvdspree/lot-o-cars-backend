@@ -29,7 +29,7 @@ public class Car extends BaseEntity {
     @NotEmpty
     private int countryCode;
     @NotEmpty
-    private Date modelYear;
+    private int modelYear;
     @NotEmpty
     private String make;
     @NotEmpty
