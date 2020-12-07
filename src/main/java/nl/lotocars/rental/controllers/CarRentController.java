@@ -69,6 +69,7 @@ public class CarRentController {
     @PutMapping("/")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<CarDto> addCar(@RequestBody CarDto car){
+
         return new ResponseEntity<>(car, HttpStatus.OK);
     }
 /*

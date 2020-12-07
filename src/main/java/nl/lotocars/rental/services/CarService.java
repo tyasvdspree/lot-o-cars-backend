@@ -50,4 +50,10 @@ public class CarService {
                 nonsmoking == "" ? -1 : Integer.parseInt(nonsmoking)
         );
     }
+    @Transactional(readOnly = false)
+    public Car registerCar(Car car){
+        carRepository.save(car);
+        return car;
+
+    }
 }
