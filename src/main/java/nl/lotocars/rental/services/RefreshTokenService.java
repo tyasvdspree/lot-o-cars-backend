@@ -1,6 +1,6 @@
 package nl.lotocars.rental.services;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import nl.lotocars.rental.Errors.LotocarsException;
 import nl.lotocars.rental.entities.RefreshToken;
 import nl.lotocars.rental.reposetories.RefreshTokenRepository;
@@ -11,7 +11,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Transactional
 public class RefreshTokenService {
 

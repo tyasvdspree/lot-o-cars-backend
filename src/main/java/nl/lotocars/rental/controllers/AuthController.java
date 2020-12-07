@@ -16,7 +16,6 @@ import javax.validation.Valid;
 
 import static org.springframework.http.HttpStatus.OK;
 
-//@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @AllArgsConstructor
 public class AuthController {

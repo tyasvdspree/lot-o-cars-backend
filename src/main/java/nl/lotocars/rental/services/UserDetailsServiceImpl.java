@@ -1,6 +1,6 @@
 package nl.lotocars.rental.services;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import nl.lotocars.rental.entities.User;
 import nl.lotocars.rental.reposetories.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,7 +17,7 @@ import java.util.Optional;
 import static java.util.Collections.singletonList;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserRepository userRepository;
 

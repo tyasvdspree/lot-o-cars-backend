@@ -2,11 +2,7 @@ package nl.lotocars.rental.services;
 
 import lombok.RequiredArgsConstructor;
 import nl.lotocars.rental.entities.User;
-/*import nl.lotocars.rental.entities.UserPrincipal;*/
 import nl.lotocars.rental.reposetories.UserRepository;
-/*import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;*/
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

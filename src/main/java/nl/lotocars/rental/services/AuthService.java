@@ -1,6 +1,6 @@
 package nl.lotocars.rental.services;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import nl.lotocars.rental.dtos.AuthenticationResponseDto;
 import nl.lotocars.rental.dtos.LoginRequestDto;
 import nl.lotocars.rental.dtos.RefreshTokenRequestDto;
@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Instant;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Transactional
 public class AuthService {
 
