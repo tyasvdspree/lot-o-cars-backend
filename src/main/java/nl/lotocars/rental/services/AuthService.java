@@ -1,9 +1,9 @@
 package nl.lotocars.rental.services;
 
 import lombok.AllArgsConstructor;
-import nl.lotocars.rental.dtos.AuthenticationResponse;
-import nl.lotocars.rental.dtos.LoginRequest;
-import nl.lotocars.rental.dtos.RefreshTokenRequest;
+import nl.lotocars.rental.dtos.AuthenticationResponseDto;
+import nl.lotocars.rental.dtos.LoginRequestDto;
+import nl.lotocars.rental.dtos.RefreshTokenRequestDto;
 import nl.lotocars.rental.entities.User;
 import nl.lotocars.rental.reposetories.UserRepository;
 import nl.lotocars.rental.security.JwtProvider;
@@ -38,27 +38,27 @@ public class AuthService {
                 .orElseThrow(() -> new UsernameNotFoundException("User name not found - " + principal.getUsername()));
     }
 
-    public AuthenticationResponse login(LoginRequest loginRequest) {
-        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
-                loginRequest.getPassword()));
+    public AuthenticationResponseDto login(LoginRequestDto loginRequestDto) {
+        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequestDto.getUsername(),
+                loginRequestDto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authenticate);
         String token = jwtProvider.generateToken(authenticate);
-        return AuthenticationResponse.builder()
+        return AuthenticationResponseDto.builder()
                 .authenticationToken(token)
                 .refreshToken(refreshTokenService.generateRefreshToken().getToken())
                 .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()))
-                .username(loginRequest.getUsername())
+                .username(loginRequestDto.getUsername())
                 .build();
     }
 
-    public AuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
-        refreshTokenService.validateRefreshToken(refreshTokenRequest.getRefreshToken());
-        String token = jwtProvider.generateTokenWithUserName(refreshTokenRequest.getUsername());
-        return AuthenticationResponse.builder()
+    public AuthenticationResponseDto refreshToken(RefreshTokenRequestDto refreshTokenRequestDto) {
+        refreshTokenService.validateRefreshToken(refreshTokenRequestDto.getRefreshToken());
+        String token = jwtProvider.generateTokenWithUserName(refreshTokenRequestDto.getUsername());
+        return AuthenticationResponseDto.builder()
                 .authenticationToken(token)
-                .refreshToken(refreshTokenRequest.getRefreshToken())
+                .refreshToken(refreshTokenRequestDto.getRefreshToken())
                 .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()))
-                .username(refreshTokenRequest.getUsername())
+                .username(refreshTokenRequestDto.getUsername())
                 .build();
     }
 

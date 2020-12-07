@@ -1,15 +1,19 @@
 package nl.lotocars.rental.dtos;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
+import java.time.Instant;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LogoutRequest {
-    @NotBlank
+@Builder
+public class AuthenticationResponseDto {
+    private String authenticationToken;
     private String refreshToken;
+    private Instant expiresAt;
+    private String username;
 }

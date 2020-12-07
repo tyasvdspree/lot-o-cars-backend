@@ -1,20 +1,23 @@
 package nl.lotocars.rental.controllers;
 
 import lombok.AllArgsConstructor;
-import nl.lotocars.rental.dtos.AuthenticationResponse;
-import nl.lotocars.rental.dtos.LoginRequest;
-import nl.lotocars.rental.dtos.RefreshTokenRequest;
+import nl.lotocars.rental.dtos.AuthenticationResponseDto;
+import nl.lotocars.rental.dtos.LoginRequestDto;
+import nl.lotocars.rental.dtos.RefreshTokenRequestDto;
 import nl.lotocars.rental.services.AuthService;
 import nl.lotocars.rental.services.RefreshTokenService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
 import static org.springframework.http.HttpStatus.OK;
 
+//@CrossOrigin(origins = "http://localhost:4200")
 @RestController
-//@RequestMapping("/api/auth")
 @AllArgsConstructor
 public class AuthController {
 
@@ -23,18 +26,18 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    public AuthenticationResponse login(@RequestBody LoginRequest loginRequest) {
-        return authService.login(loginRequest);
+    public AuthenticationResponseDto login(@RequestBody LoginRequestDto loginRequestDto) {
+        return authService.login(loginRequestDto);
     }
 
     @PostMapping("/refresh/token")
-    public AuthenticationResponse refreshTokens(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest) {
-        return authService.refreshToken(refreshTokenRequest);
+    public AuthenticationResponseDto refreshTokens(@Valid @RequestBody RefreshTokenRequestDto refreshTokenRequestDto) {
+        return authService.refreshToken(refreshTokenRequestDto);
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<String> logout(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest) {
-        refreshTokenService.deleteRefreshToken(refreshTokenRequest.getRefreshToken());
+    public ResponseEntity<String> logout(@Valid @RequestBody RefreshTokenRequestDto refreshTokenRequestDto) {
+        refreshTokenService.deleteRefreshToken(refreshTokenRequestDto.getRefreshToken());
         return ResponseEntity.status(OK).body("Refresh Token Deleted Successfully!!");
     }
 }

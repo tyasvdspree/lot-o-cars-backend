@@ -1,20 +1,17 @@
 package nl.lotocars.rental.security;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import nl.lotocars.rental.Errors.LotocarsException;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.io.IOException;
-import java.io.InputStream;
 import java.security.*;
-import java.security.cert.CertificateException;
 import java.sql.Date;
 import java.time.Instant;
 
@@ -32,13 +29,6 @@ public class JwtProvider {
 
     @PostConstruct
     public void init() {
-//        try {
-//            keyStore = KeyStore.getInstance("JKS");
-//            InputStream resourceAsStream = getClass().getResourceAsStream("/lotocars.jks");
-//            keyStore.load(resourceAsStream, "secret".toCharArray());
-//        } catch (KeyStoreException | CertificateException | NoSuchAlgorithmException | IOException e) {
-//            throw new LotocarsException("Exception occurred while loading keystore", e);
-//        }
         key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
     }
 
@@ -59,14 +49,6 @@ public class JwtProvider {
                 .signWith(key)
                 .setExpiration(Date.from(Instant.now().plusMillis(jwtExpirationInMillis)))
                 .compact();
-    }
-
-    private PrivateKey getPrivateKey() {
-        try {
-            return (PrivateKey) keyStore.getKey("lotocars", "secret".toCharArray());
-        } catch (KeyStoreException | NoSuchAlgorithmException | UnrecoverableKeyException e) {
-            throw new LotocarsException("Exception occured while retrieving public key from keystore", e);
-        }
     }
 
     public boolean validateToken(String jwt) {
