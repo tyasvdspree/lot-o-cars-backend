@@ -37,6 +37,8 @@ public class Car extends BaseEntity {
     @NotEmpty
     private String body;
     @NotEmpty
+    private String color;
+    @NotEmpty
     private Transmission.transmission transmission;
     @NotEmpty
     private String fuel;
@@ -50,6 +52,8 @@ public class Car extends BaseEntity {
     private int seats;
     @NotEmpty
     private long bootSpaceInLiters;
+    @NotEmpty
+    private double rentPricePerHour;
     private boolean navigation;
     private boolean airco;
     private boolean smokingIsAllowed;

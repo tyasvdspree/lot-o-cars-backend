@@ -22,12 +22,14 @@ public class CarDto {
     private String make;
     private String model;
     private String body;
+    private String color;
     private Transmission.transmission transmission;
     private String fuel;
     private double fuelUsage;
     private int doors;
     private int seats;
     private long bootSpaceInLiters;
+    private double rentPricePerHour;
     private boolean navigation;
     private boolean airco;
     private boolean smokingIsAllowed;

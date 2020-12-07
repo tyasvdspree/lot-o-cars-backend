@@ -20,6 +20,15 @@ public class User extends BaseEntity {
     @NotEmpty
     private String password;
 
+    @NotEmpty
+    private String firstname;
+
+    @NotEmpty
+    private String lastname;
+
+    private String phonenumber;
+    private String emailaddress;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",

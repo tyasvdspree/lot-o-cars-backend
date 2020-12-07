@@ -18,6 +18,6 @@ public class Location extends BaseEntity{
     private String addressLine2;
     private String city;
     private String zipcode;
-    private int CountryCode;
-    private String Municipality;
+    private int countryCode;
+    private String municipality;
 }
