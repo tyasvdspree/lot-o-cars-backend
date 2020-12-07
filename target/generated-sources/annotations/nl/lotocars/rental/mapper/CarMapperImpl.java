@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2020-12-04T23:53:42+0100",
-    comments = "version: 1.3.1.Final, compiler: javac, environment: Java 11.0.8 (AdoptOpenJDK)"
+    date = "2020-12-07T15:51:35+0100",
+    comments = "version: 1.3.1.Final, compiler: javac, environment: Java 11.0.9 (Oracle Corporation)"
 )
 @Component
 public class CarMapperImpl extends CarMapper {
@@ -29,12 +29,14 @@ public class CarMapperImpl extends CarMapper {
         carDto.setMake( source.getMake() );
         carDto.setModel( source.getModel() );
         carDto.setBody( source.getBody() );
+        carDto.setColor( source.getColor() );
         carDto.setTransmission( source.getTransmission() );
         carDto.setFuel( source.getFuel() );
         carDto.setFuelUsage( source.getFuelUsage() );
         carDto.setDoors( source.getDoors() );
         carDto.setSeats( source.getSeats() );
         carDto.setBootSpaceInLiters( source.getBootSpaceInLiters() );
+        carDto.setRentPricePerHour( source.getRentPricePerHour() );
         carDto.setNavigation( source.isNavigation() );
         carDto.setAirco( source.isAirco() );
         carDto.setSmokingIsAllowed( source.isSmokingIsAllowed() );
@@ -59,12 +61,14 @@ public class CarMapperImpl extends CarMapper {
         car.setMake( destination.getMake() );
         car.setModel( destination.getModel() );
         car.setBody( destination.getBody() );
+        car.setColor( destination.getColor() );
         car.setTransmission( destination.getTransmission() );
         car.setFuel( destination.getFuel() );
         car.setFuelUsage( destination.getFuelUsage() );
         car.setDoors( destination.getDoors() );
         car.setSeats( destination.getSeats() );
         car.setBootSpaceInLiters( destination.getBootSpaceInLiters() );
+        car.setRentPricePerHour( destination.getRentPricePerHour() );
         car.setNavigation( destination.isNavigation() );
         car.setAirco( destination.isAirco() );
         car.setSmokingIsAllowed( destination.isSmokingIsAllowed() );

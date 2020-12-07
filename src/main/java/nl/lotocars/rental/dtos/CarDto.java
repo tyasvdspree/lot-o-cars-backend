@@ -18,7 +18,7 @@ public class CarDto {
 
     private String numberPlate;
     private int countryCode;
-    private Date modelYear;
+    private int modelYear;
     private String make;
     private String model;
     private String body;
