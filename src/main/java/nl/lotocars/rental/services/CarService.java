@@ -43,7 +43,7 @@ public class CarService {
                 model == "" ? null : model,
                 color == "" ? null : color,
                 fuel == "" ? null : fuel,
-                modelyear == "" ? null : new Date(Integer.parseInt(modelyear), 1, 1),
+                modelyear == "" ? 0 : Integer.parseInt(modelyear),
                 doors == "" ? 0 : Integer.parseInt(doors),
                 seats == "" ? 0 : Integer.parseInt(seats),
                 bootspace == "" ? 0 : Integer.parseInt(bootspace),

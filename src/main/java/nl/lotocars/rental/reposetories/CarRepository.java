@@ -21,7 +21,7 @@ public interface CarRepository extends JpaRepository<Car, Long> {
             "(:model is null OR c.model LIKE %:model%) AND " +
             "(:color is null OR c.color = :color) AND " +
             "(:fuel is null OR c.fuel = :fuel) AND " +
-            "(:modelyear is null OR c.modelYear >= :modelyear) AND " +
+            "(:modelyear = 0 OR YEAR(c.modelYear) = :modelyear) AND " +
             "(:doors = 0 OR c.doors = :doors) AND " +
             "(:seats = 0 OR c.seats = :seats) AND " +
             "(:bootspace = 0 OR c.bootSpaceInLiters >= :bootspace) AND " +
@@ -33,7 +33,7 @@ public interface CarRepository extends JpaRepository<Car, Long> {
             @Param("model") String model,
             @Param("color") String color,
             @Param("fuel") String fuel,
-            @Param("modelyear") Date modelyear,
+            @Param("modelyear") int modelyear,
             @Param("doors") int doors,
             @Param("seats") int seats,
             @Param("bootspace") int bootspace,
