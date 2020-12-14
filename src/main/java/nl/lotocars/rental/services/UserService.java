@@ -32,6 +32,10 @@ public class UserService/* implements UserDetailsService */{
         User newUser = new User();
         newUser.setUsername(user.getUsername());
         newUser.setPassword(hashPassword(user.getPassword()));
+        newUser.setFirstname(user.getFirstname());
+        newUser.setLastname(user.getLastname());
+        newUser.setPhonenumber(user.getPhonenumber());
+        newUser.setEmailaddress(user.getEmailaddress());
         newUser.setBrokerFee(5);
         newUser.setActive(true);
         return userRepository.save(newUser);
