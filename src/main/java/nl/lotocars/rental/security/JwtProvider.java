@@ -23,7 +23,7 @@ public class JwtProvider {
 
     private KeyStore keyStore;
     //@Value("${jwt.expiration.time}")
-    private final Long jwtExpirationInMillis = 900000L;
+    private final Long jwtExpirationInMillis = 90000000L;
 
     private Key key;
 
@@ -52,7 +52,7 @@ public class JwtProvider {
     }
 
     public boolean validateToken(String jwt) {
-        parser().setSigningKey(getPublickey()).parseClaimsJws(jwt);
+        parser().setSigningKey(key).parseClaimsJws(jwt);
         return true;
     }
 
@@ -67,7 +67,7 @@ public class JwtProvider {
 
     public String getUsernameFromJwt(String token) {
         Claims claims = parser()
-                .setSigningKey(getPublickey())
+                .setSigningKey(key)
                 .parseClaimsJws(token)
                 .getBody();
 
