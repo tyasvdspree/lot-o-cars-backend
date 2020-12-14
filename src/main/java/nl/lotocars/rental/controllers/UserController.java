@@ -26,7 +26,7 @@ public class UserController {
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Collection<UserDto>> getCars(){
+    public ResponseEntity<Collection<UserDto>> getUsers(){
         Collection<User> cars = userService.getUsers();
         Collection<UserDto> mappedCars = cars.parallelStream()
                 .map(userMapper::mapToDestination).collect(Collectors.toList());
@@ -35,7 +35,7 @@ public class UserController {
 
     @GetMapping("/{userId}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<UserDto> getCar(@PathVariable long userId){
+    public ResponseEntity<UserDto> getUser(@PathVariable long userId){
         Optional<User> user = userService.getUser(userId);
         if(!user.isPresent()){
             throw new UserNotFoundException();
@@ -44,4 +44,13 @@ public class UserController {
         UserDto mappedUser = userMapper.mapToDestination(user.get());
         return new ResponseEntity<>(mappedUser, HttpStatus.OK);
     }
+
+    @PutMapping("")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<User> registerUser(@RequestBody User inputUser){
+        User newUser = userService.registerUser(inputUser);
+//        UserDto mappedUser = userMapper.mapToDestination(newUser);
+        return new ResponseEntity<>(newUser, HttpStatus.OK);
+    }
+
 }
