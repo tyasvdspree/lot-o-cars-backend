@@ -31,6 +31,8 @@ public class AgreementService {
     }
 
     public Agreement createAgreement(Agreement agreement){
+        agreement.setBrokerFee(agreement.getRentee().getBrokerFee());
+        agreement.setRentPricePerHour(agreement.getCar().getRentPricePerHour());
         return agreementRepository.save(agreement);
     }
 }
