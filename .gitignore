@@ -23,10 +23,10 @@
 hs_err_pid*
 
 #idea directories
-/.idea
+/.idea/*
 .mvn
 /target/*
-lot-o-cars-backend.iml
+*.iml
 mvnw
 mvnw.cmd
 src/main/resources/application.properties

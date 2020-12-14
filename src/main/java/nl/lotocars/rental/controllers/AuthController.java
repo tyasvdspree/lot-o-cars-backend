@@ -7,10 +7,7 @@ import nl.lotocars.rental.dtos.RefreshTokenRequestDto;
 import nl.lotocars.rental.services.AuthService;
 import nl.lotocars.rental.services.RefreshTokenService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 

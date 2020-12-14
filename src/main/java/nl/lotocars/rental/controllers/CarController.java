@@ -1,7 +1,6 @@
 package nl.lotocars.rental.controllers;
 
 import lombok.RequiredArgsConstructor;
-import nl.lotocars.rental.dtos.CarDto;
 import nl.lotocars.rental.entities.Car;
 import nl.lotocars.rental.mapper.CarMapper;
 import nl.lotocars.rental.services.CarService;
