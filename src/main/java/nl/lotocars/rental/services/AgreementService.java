@@ -29,4 +29,8 @@ public class AgreementService {
                         .toInstant())
         );
     }
+
+    public Agreement createAgreement(Agreement agreement){
+        return agreementRepository.save(agreement);
+    }
 }

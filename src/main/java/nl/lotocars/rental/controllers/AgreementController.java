@@ -40,4 +40,11 @@ public class AgreementController {
 
         return new ResponseEntity<Collection<LocalDate>>(dates, HttpStatus.OK);
     }
+
+    @PutMapping("/")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Agreement> createAgreement(@RequestBody Agreement agreement){
+        return new ResponseEntity<>(agreementService.createAgreement(agreement), HttpStatus.OK);
+
+    }
 }
