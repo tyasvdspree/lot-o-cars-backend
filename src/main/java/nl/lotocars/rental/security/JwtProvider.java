@@ -5,9 +5,9 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import nl.lotocars.rental.Errors.LotocarsException;
-import org.springframework.beans.factory.annotation.Value;
+import nl.lotocars.rental.entities.User;
+import nl.lotocars.rental.entities.UserPrincipal;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -22,7 +22,7 @@ import static java.util.Date.from;
 public class JwtProvider {
 
     private KeyStore keyStore;
-    //@Value("${jwt.expiration.time}")
+//    @Value("${jwt.expiration.time}")
     private final Long jwtExpirationInMillis = 90000000L;
 
     private Key key;
@@ -33,7 +33,7 @@ public class JwtProvider {
     }
 
     public String generateToken(Authentication authentication) {
-        User principal = (User) authentication.getPrincipal();
+        UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
         return Jwts.builder()
                 .setSubject(principal.getUsername())
                 .setIssuedAt(from(Instant.now()))
