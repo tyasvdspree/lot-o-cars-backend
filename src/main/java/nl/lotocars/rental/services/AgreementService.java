@@ -1,6 +1,7 @@
 package nl.lotocars.rental.services;
 
 import lombok.RequiredArgsConstructor;
+import nl.lotocars.rental.dtos.AgreementDto;
 import nl.lotocars.rental.entities.Agreement;
 import nl.lotocars.rental.entities.Car;
 import nl.lotocars.rental.reposetories.AgreementRepository;
@@ -30,9 +31,12 @@ public class AgreementService {
         );
     }
 
+    @Transactional(readOnly = false)
     public Agreement createAgreement(Agreement agreement){
-        agreement.setBrokerFee(agreement.getRentee().getBrokerFee());
-        agreement.setRentPricePerHour(agreement.getCar().getRentPricePerHour());
+//        agreement.setBrokerFee(agreement.getRentee().getBrokerFee());
+//        agreement.setRentPricePerHour(agreement.getCar().getRentPricePerHour());
+//        agreement.setBrokerFee(88);
+//        agreement.setRentPricePerHour(88);
         return agreementRepository.save(agreement);
     }
 }

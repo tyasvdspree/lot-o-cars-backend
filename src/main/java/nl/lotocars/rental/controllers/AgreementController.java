@@ -1,7 +1,11 @@
 package nl.lotocars.rental.controllers;
 
 import lombok.RequiredArgsConstructor;
+import nl.lotocars.rental.dtos.AgreementDto;
+import nl.lotocars.rental.dtos.CarDto;
 import nl.lotocars.rental.entities.Agreement;
+import nl.lotocars.rental.entities.Car;
+import nl.lotocars.rental.mapper.AgreementMapper;
 import nl.lotocars.rental.services.AgreementService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +22,7 @@ import java.util.stream.Collectors;
 public class AgreementController {
 
     private final AgreementService agreementService;
+    private final AgreementMapper agreementMapper;
 
     @GetMapping("/{numberPlate}")
     @ResponseStatus(HttpStatus.OK)
@@ -41,10 +46,17 @@ public class AgreementController {
         return new ResponseEntity<Collection<LocalDate>>(dates, HttpStatus.OK);
     }
 
-    @PutMapping("/")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Agreement> createAgreement(@RequestBody Agreement agreement){
-        return new ResponseEntity<>(agreementService.createAgreement(agreement), HttpStatus.OK);
+//    @PutMapping
+//    @ResponseStatus(HttpStatus.OK)
+//    public ResponseEntity<Agreement> createAgreement(@RequestBody Agreement agreement){
+//        return new ResponseEntity<>(agreementService.createAgreement(agreement), HttpStatus.OK);
+//
+//    }
 
+    @PutMapping
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<AgreementDto> addAgreement(@RequestBody AgreementDto agreementDto){
+        Agreement agreement = agreementService.createAgreement(agreementMapper.mapToSource(agreementDto));
+        return new ResponseEntity<>(agreementMapper.mapToDestination(agreement), HttpStatus.OK);
     }
 }
