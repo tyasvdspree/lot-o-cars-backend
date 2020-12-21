@@ -3,6 +3,7 @@ package nl.lotocars.rental.entities;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -13,15 +14,15 @@ import java.util.Date;
 @Entity
 public class Agreement extends BaseEntity {
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "car_id")
     private Car car;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "renter_id")
     private User renter;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "rentee_id")
     private User rentee;
 

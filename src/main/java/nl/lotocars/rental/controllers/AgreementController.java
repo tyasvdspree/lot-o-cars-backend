@@ -9,6 +9,7 @@ import nl.lotocars.rental.mapper.AgreementMapper;
 import nl.lotocars.rental.services.AgreementService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -53,9 +54,11 @@ public class AgreementController {
 //
 //    }
 
-    @PutMapping
+    @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<AgreementDto> addAgreement(@RequestBody AgreementDto agreementDto){
+    public ResponseEntity<AgreementDto> addAgreement(@RequestBody AgreementDto agreementDto, Authentication authentication){
+        String username = authentication.getName();
+        Object details = authentication.getDetails();
         Agreement agreement = agreementService.createAgreement(agreementMapper.mapToSource(agreementDto));
         return new ResponseEntity<>(agreementMapper.mapToDestination(agreement), HttpStatus.OK);
     }

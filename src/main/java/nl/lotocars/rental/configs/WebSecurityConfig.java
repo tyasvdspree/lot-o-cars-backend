@@ -31,6 +31,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
+                .requiresChannel()
+                .anyRequest().requiresSecure()
+                .and()
                 .cors()
                 .and()
                 .csrf().disable()
