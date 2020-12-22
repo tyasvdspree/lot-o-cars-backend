@@ -5,13 +5,19 @@ import nl.lotocars.rental.dtos.AgreementDto;
 import nl.lotocars.rental.dtos.CarDto;
 import nl.lotocars.rental.entities.Agreement;
 import nl.lotocars.rental.entities.Car;
+import nl.lotocars.rental.entities.User;
 import nl.lotocars.rental.mapper.AgreementMapper;
 import nl.lotocars.rental.services.AgreementService;
+import nl.lotocars.rental.services.AuthService;
+import nl.lotocars.rental.services.CarService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -22,8 +28,10 @@ import java.util.stream.Collectors;
 @RequestMapping("agreement")
 public class AgreementController {
 
+    private final AuthService authService;
     private final AgreementService agreementService;
     private final AgreementMapper agreementMapper;
+    private final CarService carService;
 
     @GetMapping("/{numberPlate}")
     @ResponseStatus(HttpStatus.OK)
@@ -56,10 +64,17 @@ public class AgreementController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<AgreementDto> addAgreement(@RequestBody AgreementDto agreementDto, Authentication authentication){
+    public ResponseEntity<AgreementDto> addAgreement(
+            @RequestBody AgreementDto agreementDto,
+            Authentication authentication){
         String username = authentication.getName();
         Object details = authentication.getDetails();
-        Agreement agreement = agreementService.createAgreement(agreementMapper.mapToSource(agreementDto));
+//        agreementDto.setCar();
+        Agreement agr = agreementMapper.mapToSource(agreementDto);
+        Optional<Car> car = carService.getCarById(agreementDto.getCarId());
+
+        Agreement agreement = agreementService.createAgreement(agr);
+//        agreement.setCar(car);
         return new ResponseEntity<>(agreementMapper.mapToDestination(agreement), HttpStatus.OK);
     }
 }

@@ -25,6 +25,10 @@ public class CarService {
         return carRepository.findByNumberPlate(numberPlate);
     }
 
+    public Optional<Car> getCarById(long id){
+        return carRepository.findById(id);
+    }
+
     public Collection<Car> searchCars(
             String city,
             String make,
