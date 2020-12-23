@@ -30,3 +30,6 @@ hs_err_pid*
 mvnw
 mvnw.cmd
 src/main/resources/application.properties
+/src/main/resources/
+
+.idea/
