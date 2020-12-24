@@ -11,16 +11,15 @@ import java.util.Date;
 @Entity
 public class Agreement extends BaseEntity {
 
-    @OneToOne(cascade = CascadeType.MERGE)
-    @MapsId
+    @OneToOne
     @JoinColumn(name = "car_id")
     private Car car;
 
-    @OneToOne(cascade = CascadeType.MERGE)
+    @OneToOne
     @JoinColumn(name = "renter_id")
     private User renter;
 
-    @OneToOne(cascade = CascadeType.MERGE)
+    @OneToOne
     @JoinColumn(name = "rentee_id")
     private User rentee;
 

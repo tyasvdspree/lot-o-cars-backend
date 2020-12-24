@@ -19,6 +19,7 @@ public class AgreementService {
 
     private final AgreementRepository agreementRepository;
     private final CarService carService;
+    private final UserService userService;
 
     @Transactional(readOnly = true)
     public Collection<Agreement> findBySearchOptions(
@@ -33,12 +34,14 @@ public class AgreementService {
         );
     }
 
-    public Agreement createAgreement(Agreement agreement, UserPrincipal rentee){
+    public Agreement createAgreement(Agreement agreement, UserPrincipal loggedInUser){
         Car car = carService.getCarById(agreement.getCar().getId()).orElseThrow(() -> new CarNotFoundException());
+        UserPrincipal rentee = (UserPrincipal) userService.loadUserByUsername(loggedInUser.getUsername());
         agreement.setBrokerFee(car.getUser().getBrokerFee());
         agreement.setRentPricePerHour(car.getRentPricePerHour());
         agreement.setRenter(car.getUser());
         agreement.setRentee(rentee.getUser());
+        agreement.setCar(car);
         return agreementRepository.save(agreement);
     }
 }

@@ -60,4 +60,9 @@ public class CarService {
         return car;
 
     }
+
+    @Transactional(readOnly = false)
+    public Car saveCar(Car car){
+        return carRepository.save(car);
+    }
 }
