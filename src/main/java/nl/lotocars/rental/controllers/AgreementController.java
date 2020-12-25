@@ -40,7 +40,7 @@ public class AgreementController {
         // gather all individual dates of the agreements
         agreements.forEach(x -> {
             LocalDate startDate = new java.sql.Date(x.getStartDate().getTime()).toLocalDate();
-            LocalDate endDate = new java.sql.Date(x.getEndDate().getTime()).toLocalDate();
+            LocalDate endDate = new java.sql.Date(x.getEndDate().getTime()).toLocalDate().plusDays(1);
             dates.addAll(startDate.datesUntil(endDate).collect(Collectors.toList()));
             }
         );
