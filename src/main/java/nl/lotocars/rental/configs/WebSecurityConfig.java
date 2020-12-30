@@ -31,11 +31,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
+                .requiresChannel()
+                .anyRequest().requiresSecure()
+                .and()
                 .cors()
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/login", "/renting**", "/user**", "/car**").permitAll();
+                .antMatchers("/login", "/renting**", "/user**", "/car**", "/agreement**").permitAll();
         httpSecurity.addFilterBefore(jwtAuthenticationFilter,
                 UsernamePasswordAuthenticationFilter.class);
     }

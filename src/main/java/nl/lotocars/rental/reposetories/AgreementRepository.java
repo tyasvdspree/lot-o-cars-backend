@@ -14,7 +14,7 @@ import java.util.Date;
 public interface AgreementRepository extends JpaRepository<Agreement, Long> {
 
     @Query("SELECT a FROM Agreement a WHERE " +
-            "(:numberPlate is null OR a.car.numberPlate = :numberPlate) AND " +
+            "(a.car.numberPlate = :numberPlate) AND " +
             "(a.startDate >= :fromDate)"
     )
     Collection<Agreement> findBySearchOptions(
