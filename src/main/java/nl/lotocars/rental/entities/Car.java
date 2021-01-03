@@ -2,7 +2,7 @@ package nl.lotocars.rental.entities;
 
 import lombok.Getter;
 import lombok.Setter;
-import nl.lotocars.rental.Enum.Transmission;
+import nl.lotocars.rental.Enum.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -31,17 +31,17 @@ public class Car extends BaseEntity {
     @NotEmpty
     private int modelYear;
     @NotEmpty
-    private String make;
+    private Make.make make;
     @NotEmpty
     private String model;
     @NotEmpty
-    private String body;
+    private CarBody.carBody body;
     @NotEmpty
-    private String color;
+    private Color.color color;
     @NotEmpty
     private Transmission.transmission transmission;
     @NotEmpty
-    private String fuel;
+    private Fuel.fuel fuel;
     @NotEmpty
     private double fuelUsage;
     @NotEmpty
