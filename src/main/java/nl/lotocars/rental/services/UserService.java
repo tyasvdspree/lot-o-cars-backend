@@ -45,6 +45,12 @@ public class UserService implements UserDetailsService {
         return userRepository.save(newUser);
     }
 
+    @Transactional(readOnly = false)
+    public User editUser(User user){
+        user.setPassword(hashPassword(user.getPassword()));
+        return userRepository.save(user);
+    }
+
     public static String hashPassword(String password_plaintext) {
         String salt = BCrypt.gensalt(workload);
         String hashed_password = BCrypt.hashpw(password_plaintext, salt);
