@@ -5,6 +5,7 @@ import nl.lotocars.rental.Errors.CarNotFoundException;
 import nl.lotocars.rental.dtos.CarDto;
 import nl.lotocars.rental.entities.Car;
 import nl.lotocars.rental.mapper.CarMapper;
+import nl.lotocars.rental.services.CarImageService;
 import nl.lotocars.rental.services.CarService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 public class CarRentController {
 
     private final CarService carService;
+    private final CarImageService carImageService;
     private final CarMapper carMapper;
 
     @GetMapping()
@@ -63,6 +65,8 @@ public class CarRentController {
         );
         Collection<CarDto> mappedCars = cars.parallelStream()
                 .map(carMapper::mapToDestination).collect(Collectors.toList());
+
+        mappedCars.forEach(x -> x.setMainCarImageId(carImageService.getMainImageId(x.getNumberPlate())));
         return new ResponseEntity<>(mappedCars, HttpStatus.OK);
     }
 

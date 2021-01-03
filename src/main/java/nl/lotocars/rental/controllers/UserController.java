@@ -4,10 +4,13 @@ import lombok.RequiredArgsConstructor;
 import nl.lotocars.rental.Errors.UserNotFoundException;
 import nl.lotocars.rental.dtos.UserDto;
 import nl.lotocars.rental.entities.User;
+import nl.lotocars.rental.entities.UserPrincipal;
 import nl.lotocars.rental.mapper.UserMapper;
 import nl.lotocars.rental.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -48,9 +51,38 @@ public class UserController {
     @PutMapping("")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<User> registerUser(@RequestBody User inputUser){
-        User newUser = userService.registerUser(inputUser);
+       userService.registerUser(inputUser);
 //        UserDto mappedUser = userMapper.mapToDestination(newUser);
-        return new ResponseEntity<>(newUser, HttpStatus.OK);
+        return new ResponseEntity<>(inputUser, HttpStatus.OK);
     }
 
+    @GetMapping("/me")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<User> getProfile(@AuthenticationPrincipal UserPrincipal rentee){
+        UserPrincipal user = (UserPrincipal) userService.loadUserByUsername(rentee.getUsername());
+        User loggedInUser = new User();
+        loggedInUser.setUsername(user.getUsername());
+        loggedInUser.setFirstname(user.getFirstName());
+        loggedInUser.setLastname(user.getLastName());
+        loggedInUser.setPhonenumber(user.getPhoneNumber());
+        loggedInUser.setEmailaddress(user.getEmailAddress());
+        loggedInUser.setPassword("******");
+        return new ResponseEntity<>(loggedInUser, HttpStatus.OK);
+    }
+
+    @PutMapping("/editme")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<User> editUser(@AuthenticationPrincipal UserPrincipal loggedUser, @RequestBody User inputUser){
+        UserPrincipal user = (UserPrincipal) userService.loadUserByUsername(loggedUser.getUsername());
+        User userToChange = user.getUser();
+
+        userToChange.setFirstname((inputUser.getFirstname() != null && !inputUser.getFirstname().isEmpty()) ? inputUser.getFirstname() : user.getFirstName());
+        userToChange.setLastname((inputUser.getLastname() != null && !inputUser.getLastname().isEmpty()) ? inputUser.getLastname() : user.getLastName());
+        userToChange.setPhonenumber((inputUser.getPhonenumber() != null && !inputUser.getPhonenumber().isEmpty()) ? inputUser.getPhonenumber() : user.getPhoneNumber());
+        userToChange.setEmailaddress((inputUser.getEmailaddress() != null && !inputUser.getEmailaddress().isEmpty()) ? inputUser.getEmailaddress() : user.getEmailAddress());
+        userToChange.setPassword((inputUser.getPassword() != null && !inputUser.getPassword().isEmpty()) ? inputUser.getPassword() : user.getPassword());
+
+        userService.editUser(userToChange);
+        return new ResponseEntity<>(userToChange, HttpStatus.OK);
+    }
 }
