@@ -34,4 +34,5 @@ public class CarDto {
     private boolean airco;
     private boolean smokingIsAllowed;
     private boolean isActive;
+    private Long mainCarImageId;
 }

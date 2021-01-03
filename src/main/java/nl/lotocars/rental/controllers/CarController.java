@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RestController
 @RequiredArgsConstructor
@@ -17,11 +18,10 @@ public class CarController {
     private final CarService carService;
     private final CarMapper carMapper;
 
-    @PutMapping("")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Car> addCar(@RequestBody Car carInputObj){
-        //Car car = carMapper.mapToSource(carInputObj);
+    @PostMapping("")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Car> addCar(@RequestBody Car carInputObj) {
         carService.registerCar(carInputObj);
-        return new ResponseEntity<>(carInputObj, HttpStatus.OK);
+        return new ResponseEntity<>(carInputObj, HttpStatus.CREATED);
     }
 }
