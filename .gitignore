@@ -26,7 +26,6 @@ hs_err_pid*
 /.idea/*
 .mvn
 /target/*
-*.iml
 mvnw
 mvnw.cmd
 src/main/resources/application.properties

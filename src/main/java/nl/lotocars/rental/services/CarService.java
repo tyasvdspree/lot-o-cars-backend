@@ -2,6 +2,7 @@ package nl.lotocars.rental.services;
 
 import lombok.RequiredArgsConstructor;
 import nl.lotocars.rental.entities.Car;
+import nl.lotocars.rental.entities.User;
 import nl.lotocars.rental.reposetories.CarRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,10 @@ public class CarService {
 
     public Optional<Car> getCarById(long id){
         return carRepository.findById(id);
+    }
+
+    public Collection<Car> getCarByOwner(User owner) {
+        return carRepository.findByUser(owner);
     }
 
     public Collection<Car> searchCars(

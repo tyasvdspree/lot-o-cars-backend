@@ -1,6 +1,7 @@
 package nl.lotocars.rental.reposetories;
 
 import nl.lotocars.rental.entities.Car;
+import nl.lotocars.rental.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -39,5 +40,7 @@ public interface CarRepository extends JpaRepository<Car, Long> {
             @Param("bootspace") int bootspace,
             @Param("nonsmoking") int nonsmoking
     );
+
+    Collection<Car> findByUser(User owner);
 
 }
