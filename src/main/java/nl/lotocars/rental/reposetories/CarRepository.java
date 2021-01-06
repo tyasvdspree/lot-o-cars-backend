@@ -18,6 +18,7 @@ public interface CarRepository extends JpaRepository<Car, Long> {
 
     @Query("SELECT c FROM Car c WHERE " +
             "(:city is null OR c.location.city = :city) AND " +
+            "((:pickupdate is null AND :dropoffdate is null) OR (NOT EXISTS (SELECT a FROM Agreement a WHERE a.car.id = c.id AND (:pickupdate BETWEEN a.startDate AND a.endDate OR :dropoffdate BETWEEN a.startDate AND a.endDate)))) AND " +
             "(:make is null OR c.make = :make) AND " +
             "(:model is null OR c.model LIKE %:model%) AND " +
             "(:color is null OR c.color = :color) AND " +
@@ -30,6 +31,8 @@ public interface CarRepository extends JpaRepository<Car, Long> {
     )
     Collection<Car> findBySearchOptions(
             @Param("city") String city,
+            @Param("pickupdate") Date pickupdate,
+            @Param("dropoffdate") Date dropoffdate,
             @Param("make") String make,
             @Param("model") String model,
             @Param("color") String color,
