@@ -26,6 +26,13 @@ public class AgreementController {
     private final AgreementService agreementService;
     private final AgreementMapper agreementMapper;
 
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Collection<Agreement>> getAgreements(@RequestParam(required = false) boolean renter, @AuthenticationPrincipal UserPrincipal userPrincipal){
+        Collection<Agreement> agreements = agreementService.findAgreements(userPrincipal, renter);
+        return new ResponseEntity<Collection<Agreement>>(agreements, HttpStatus.OK);
+    }
+
     @GetMapping("/{numberPlate}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Collection<LocalDate>> getCarRentedDates(@PathVariable String numberPlate){
