@@ -11,11 +11,11 @@ public class AgreementDto {
 
     private long id;
 
-    private long carId;
+    private CarDto car;
 
-    private long renterId;
+    private UserDto renter;
 
-    private long renteeId;
+    private UserDto rentee;
 
     private Date startDate;
 

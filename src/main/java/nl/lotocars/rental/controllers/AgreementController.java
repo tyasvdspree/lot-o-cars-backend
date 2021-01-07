@@ -28,9 +28,11 @@ public class AgreementController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Collection<Agreement>> getAgreements(@RequestParam(required = false) boolean renter, @AuthenticationPrincipal UserPrincipal userPrincipal){
+    public ResponseEntity<Collection<AgreementDto>> getAgreements(@RequestParam(required = false) boolean renter, @AuthenticationPrincipal UserPrincipal userPrincipal){
         Collection<Agreement> agreements = agreementService.findAgreements(userPrincipal, renter);
-        return new ResponseEntity<Collection<Agreement>>(agreements, HttpStatus.OK);
+        Collection<AgreementDto> mappedAgreements = agreements.parallelStream()
+                .map(agreementMapper::mapToDestination).collect(Collectors.toList());
+        return new ResponseEntity<Collection<AgreementDto>>(mappedAgreements, HttpStatus.OK);
     }
 
     @GetMapping("/{numberPlate}")
