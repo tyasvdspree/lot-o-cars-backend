@@ -56,6 +56,7 @@ public class CarRentController {
         @RequestParam("make") String make,
         @RequestParam("model") String model,
         @RequestParam("color") String color,
+        @RequestParam("transmission") String transmission,
         @RequestParam("fuel") String fuel,
         @RequestParam("modelyear") String modelyear,
         @RequestParam("doors") String doors,
@@ -64,7 +65,7 @@ public class CarRentController {
         @RequestParam("nonsmoking") String nonsmoking
     ) throws ParseException {
         Collection<Car> cars = carService.searchCars(
-                city, pickupdate, dropoffdate, make, model, color, fuel, modelyear, doors, seats, bootspace, nonsmoking
+                city, pickupdate, dropoffdate, make, model, color, transmission, fuel, modelyear, doors, seats, bootspace, nonsmoking
         );
         Collection<CarDto> mappedCars = cars.parallelStream()
                 .map(carMapper::mapToDestination).collect(Collectors.toList());

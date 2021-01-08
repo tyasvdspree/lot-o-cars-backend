@@ -27,7 +27,7 @@ public class Car extends BaseEntity {
     @JoinColumn(name = "location_id")
     private Location location;
 
-    
+
     @NotEmpty
     private String numberPlate;
 

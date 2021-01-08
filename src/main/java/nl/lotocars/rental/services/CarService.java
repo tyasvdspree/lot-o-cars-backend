@@ -1,6 +1,10 @@
 package nl.lotocars.rental.services;
 
 import lombok.RequiredArgsConstructor;
+import nl.lotocars.rental.Enum.Color;
+import nl.lotocars.rental.Enum.Fuel;
+import nl.lotocars.rental.Enum.Make;
+import nl.lotocars.rental.Enum.Transmission;
 import nl.lotocars.rental.entities.Car;
 import nl.lotocars.rental.entities.User;
 import nl.lotocars.rental.reposetories.CarRepository;
@@ -43,6 +47,7 @@ public class CarService {
             String make,
             String model,
             String color,
+            String transmission,
             String fuel,
             String modelyear,
             String doors,
@@ -54,10 +59,11 @@ public class CarService {
                 city == "" ? null : city,
                 pickupdate == "" ? null : new SimpleDateFormat("yyyy-MM-dd").parse(pickupdate),
                 dropoffdate == "" ? null : new SimpleDateFormat("yyyy-MM-dd").parse(dropoffdate),
-                make == "" ? null : make,
+                make == "" ? null : Make.make.valueOf(make),
                 model == "" ? null : model,
-                color == "" ? null : color,
-                fuel == "" ? null : fuel,
+                color == "" ? null : Color.color.valueOf(color),
+                transmission == "" ? null : Transmission.transmission.valueOf(transmission),
+                fuel == "" ? null : Fuel.fuel.valueOf(fuel),
                 modelyear == "" ? 0 : Integer.parseInt(modelyear),
                 doors == "" ? 0 : Integer.parseInt(doors),
                 seats == "" ? 0 : Integer.parseInt(seats),
