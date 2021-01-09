@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -50,18 +51,21 @@ public class CarRentController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Collection<CarDto>> search(
         @RequestParam("city") String city,
+        @RequestParam("pickupdate") String pickupdate,
+        @RequestParam("dropoffdate") String dropoffdate,
         @RequestParam("make") String make,
         @RequestParam("model") String model,
         @RequestParam("color") String color,
+        @RequestParam("transmission") String transmission,
         @RequestParam("fuel") String fuel,
         @RequestParam("modelyear") String modelyear,
         @RequestParam("doors") String doors,
         @RequestParam("seats") String seats,
         @RequestParam("bootspace") String bootspace,
         @RequestParam("nonsmoking") String nonsmoking
-    ){
+    ) throws ParseException {
         Collection<Car> cars = carService.searchCars(
-                city, make, model, color, fuel, modelyear, doors, seats, bootspace, nonsmoking
+                city, pickupdate, dropoffdate, make, model, color, transmission, fuel, modelyear, doors, seats, bootspace, nonsmoking
         );
         Collection<CarDto> mappedCars = cars.parallelStream()
                 .map(carMapper::mapToDestination).collect(Collectors.toList());
