@@ -26,6 +26,15 @@ public class AgreementController {
     private final AgreementService agreementService;
     private final AgreementMapper agreementMapper;
 
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Collection<AgreementDto>> getAgreements(@RequestParam(required = false) boolean renter, @AuthenticationPrincipal UserPrincipal userPrincipal){
+        Collection<Agreement> agreements = agreementService.findAgreements(userPrincipal, renter);
+        Collection<AgreementDto> mappedAgreements = agreements.parallelStream()
+                .map(agreementMapper::mapToDestination).collect(Collectors.toList());
+        return new ResponseEntity<Collection<AgreementDto>>(mappedAgreements, HttpStatus.OK);
+    }
+
     @GetMapping("/{numberPlate}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Collection<LocalDate>> getCarRentedDates(@PathVariable String numberPlate){

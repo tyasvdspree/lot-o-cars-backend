@@ -11,8 +11,5 @@ public abstract class AgreementMapper {
 
     public abstract AgreementDto mapToDestination(Agreement source);
 
-    @Mappings({
-            @Mapping(target = "car.id", source = "destination.carId")
-    })
     public abstract Agreement mapToSource(AgreementDto destination);
 }
