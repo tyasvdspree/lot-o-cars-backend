@@ -27,8 +27,8 @@ public class CarController {
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Car> addCar(@RequestBody Car carInputObj) {
-        carService.registerCar(carInputObj);
+    public ResponseEntity<Car> addCar(@RequestBody Car carInputObj, @AuthenticationPrincipal UserPrincipal user) {
+        carService.registerCar(carInputObj, user);
         return new ResponseEntity<>(carInputObj, HttpStatus.CREATED);
     }
 
