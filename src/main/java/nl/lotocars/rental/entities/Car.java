@@ -36,16 +36,21 @@ public class Car extends BaseEntity {
     @NotEmpty
     private int modelYear;
     @NotEmpty
+    @Enumerated(EnumType.ORDINAL)
     private Make.make make;
     @NotEmpty
     private String model;
     @NotEmpty
+    @Enumerated(EnumType.ORDINAL)
     private CarBody.carBody body;
     @NotEmpty
+    @Enumerated(EnumType.ORDINAL)
     private Color.color color;
     @NotEmpty
+    @Enumerated(EnumType.ORDINAL)
     private Transmission.transmission transmission;
     @NotEmpty
+    @Enumerated(EnumType.ORDINAL)
     private Fuel.fuel fuel;
     @NotEmpty
     private double fuelUsage;

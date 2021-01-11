@@ -2,16 +2,16 @@ package nl.lotocars.rental.Enum;
 
 public class Color {
     public enum color{
+        BLACK,
         BLUE,
         BROWN,
-        YELLOW,
-        GREY,
         GREEN,
+        GREY,
         ORANGE,
+        PINK,
         PURPLE,
         RED,
-        PINK,
         WHITE,
-        BLACK
+        YELLOW
     }
 }
