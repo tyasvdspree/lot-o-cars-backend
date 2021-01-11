@@ -45,6 +45,7 @@ public class AgreementService {
         agreement.setRenter(car.getUser());
         agreement.setRentee(rentee.getUser());
         agreement.setCar(car);
+        agreement.setStatus(AgreementStatus.agreemtStatus.PENDING);
         return agreementRepository.save(agreement);
     }
 
