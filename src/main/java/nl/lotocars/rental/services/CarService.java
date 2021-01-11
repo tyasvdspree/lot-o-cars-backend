@@ -6,8 +6,11 @@ import nl.lotocars.rental.Enum.Fuel;
 import nl.lotocars.rental.Enum.Make;
 import nl.lotocars.rental.Enum.Transmission;
 import nl.lotocars.rental.entities.Car;
+import nl.lotocars.rental.entities.Location;
 import nl.lotocars.rental.entities.User;
+import nl.lotocars.rental.entities.UserPrincipal;
 import nl.lotocars.rental.reposetories.CarRepository;
+import nl.lotocars.rental.reposetories.LocationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +26,8 @@ import java.util.Optional;
 public class CarService {
 
     private final CarRepository carRepository;
+    private final UserService userService;
+    private final LocationRepository locationRepository;
 
     public Collection<Car> getCars() {
         return carRepository.findAll();
@@ -73,7 +78,10 @@ public class CarService {
     }
 
     @Transactional(readOnly = false)
-    public Car registerCar(Car car){
+    public Car registerCar(Car car, UserPrincipal loggedInUser){
+        UserPrincipal user = (UserPrincipal) userService.loadUserByUsername(loggedInUser.getUsername());
+        car.setUser(user.getUser());
+        car.setLocation(locationRepository.getOne((long) 1));
         carRepository.save(car);
         return car;
 
