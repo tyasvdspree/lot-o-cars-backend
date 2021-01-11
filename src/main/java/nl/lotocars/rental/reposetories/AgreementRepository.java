@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.Optional;
 
 @Repository
 public interface AgreementRepository extends JpaRepository<Agreement, Long> {
@@ -26,4 +27,5 @@ public interface AgreementRepository extends JpaRepository<Agreement, Long> {
     Collection<Agreement> findByRenter(User renter);
 
     Collection<Agreement> findByRentee(User renter);
+
 }

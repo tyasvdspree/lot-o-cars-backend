@@ -15,4 +15,13 @@ public class UserDto {
     private Location location;
 
     private Collection<String> roles;
+
+    private String firstname;
+
+    private String lastname;
+
+    private String phonenumber;
+
+    private String emailaddress;
+
 }

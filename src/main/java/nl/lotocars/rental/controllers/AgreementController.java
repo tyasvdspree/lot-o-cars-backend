@@ -1,7 +1,11 @@
 package nl.lotocars.rental.controllers;
 
 import lombok.RequiredArgsConstructor;
+import nl.lotocars.rental.Enum.AgreementStatus;
+import nl.lotocars.rental.Errors.AgreementNotFoundException;
+import nl.lotocars.rental.Errors.CarNotFoundException;
 import nl.lotocars.rental.dtos.AgreementDto;
+import nl.lotocars.rental.dtos.AgreementStatusDto;
 import nl.lotocars.rental.entities.Agreement;
 import nl.lotocars.rental.entities.UserPrincipal;
 import nl.lotocars.rental.mapper.AgreementMapper;
@@ -15,6 +19,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
@@ -33,6 +38,17 @@ public class AgreementController {
         Collection<AgreementDto> mappedAgreements = agreements.parallelStream()
                 .map(agreementMapper::mapToDestination).collect(Collectors.toList());
         return new ResponseEntity<Collection<AgreementDto>>(mappedAgreements, HttpStatus.OK);
+    }
+
+    @GetMapping("/id/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<AgreementDto> getAgreement(@PathVariable Long id){
+        Optional<Agreement> agreement = agreementService.findById(id);
+        if(!agreement.isPresent()){
+            throw new AgreementNotFoundException();
+        }
+        AgreementDto agreementDto = agreementMapper.mapToDestination(agreement.get());
+        return new ResponseEntity<AgreementDto>(agreementDto, HttpStatus.OK);
     }
 
     @GetMapping("/{numberPlate}")
@@ -65,4 +81,23 @@ public class AgreementController {
         Agreement agreement = agreementService.createAgreement(agreementMapper.mapToSource(agreementDto), rentee);
         return new ResponseEntity<>(agreementMapper.mapToDestination(agreement), HttpStatus.OK);
     }
+
+    @PutMapping("/status")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<AgreementDto> cancelAgreement(
+            @RequestBody AgreementStatusDto newStatus
+    ) {
+        Optional<Agreement> agreement = agreementService.setStatus(
+            newStatus.getId(),
+            newStatus.getStatus(),
+            newStatus.getReason()
+        );
+
+        if(!agreement.isPresent()){
+            throw new AgreementNotFoundException();
+        }
+
+        return new ResponseEntity<>(agreementMapper.mapToDestination(agreement.get()), HttpStatus.OK);
+    }
+
 }

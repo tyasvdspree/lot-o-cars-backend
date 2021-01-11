@@ -36,3 +36,4 @@ public abstract class AgreementMapper {
         return source.getRoles().stream().map(x -> x.getName()).collect(Collectors.toList());
     }
 }
+

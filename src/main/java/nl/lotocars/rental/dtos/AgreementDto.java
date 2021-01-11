@@ -2,6 +2,7 @@ package nl.lotocars.rental.dtos;
 
 import lombok.Getter;
 import lombok.Setter;
+import nl.lotocars.rental.Enum.AgreementStatus;
 
 import java.util.Date;
 
@@ -26,4 +27,8 @@ public class AgreementDto {
     private double brokerFee;
 
     private boolean isPayed;
+
+    private AgreementStatus.agreemtStatus status;
+
+    private String reason;
 }

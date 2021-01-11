@@ -1,6 +1,7 @@
 package nl.lotocars.rental.services;
 
 import lombok.RequiredArgsConstructor;
+import nl.lotocars.rental.Enum.AgreementStatus;
 import nl.lotocars.rental.Errors.CarNotFoundException;
 import nl.lotocars.rental.entities.Agreement;
 import nl.lotocars.rental.entities.Car;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -53,5 +55,24 @@ public class AgreementService {
             return agreementRepository.findByRenter(user);
         }
         return agreementRepository.findByRentee(user);
+    }
+
+    public Optional<Agreement> findById(Long id){
+        return agreementRepository.findById(id);
+    }
+
+    public Optional<Agreement> setStatus(Long id, AgreementStatus.agreemtStatus status, String reason){
+        Optional<Agreement> agreement = agreementRepository.findById(id);
+
+        if (agreement.isPresent()) {
+            Agreement a = agreement.get();
+            if (a.getStatus() != status) {
+                a.setStatus(status);
+                a.setReason(reason);
+                agreementRepository.save(a);
+            }
+        }
+
+        return agreement;
     }
 }
