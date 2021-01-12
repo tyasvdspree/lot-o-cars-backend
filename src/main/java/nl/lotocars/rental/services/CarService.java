@@ -1,10 +1,7 @@
 package nl.lotocars.rental.services;
 
 import lombok.RequiredArgsConstructor;
-import nl.lotocars.rental.Enum.Color;
-import nl.lotocars.rental.Enum.Fuel;
-import nl.lotocars.rental.Enum.Make;
-import nl.lotocars.rental.Enum.Transmission;
+import nl.lotocars.rental.Enum.*;
 import nl.lotocars.rental.entities.Car;
 import nl.lotocars.rental.entities.Location;
 import nl.lotocars.rental.entities.User;
@@ -73,7 +70,8 @@ public class CarService {
                 doors == "" ? 0 : Integer.parseInt(doors),
                 seats == "" ? 0 : Integer.parseInt(seats),
                 bootspace == "" ? 0 : Integer.parseInt(bootspace),
-                nonsmoking == "" ? -1 : Integer.parseInt(nonsmoking)
+                nonsmoking == "" ? -1 : Integer.parseInt(nonsmoking),
+                AgreementStatus.agreemtStatus.CANCELED
         );
     }
 
@@ -81,10 +79,9 @@ public class CarService {
     public Car registerCar(Car car, UserPrincipal loggedInUser){
         UserPrincipal user = (UserPrincipal) userService.loadUserByUsername(loggedInUser.getUsername());
         car.setUser(user.getUser());
-        car.setLocation(locationRepository.getOne((long) 1));
+        car.setLocation(locationRepository.findById((long) 1).get());
         carRepository.save(car);
         return car;
-
     }
 
     @Transactional(readOnly = false)

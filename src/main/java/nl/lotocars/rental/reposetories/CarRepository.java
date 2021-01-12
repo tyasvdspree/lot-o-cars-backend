@@ -1,9 +1,6 @@
 package nl.lotocars.rental.reposetories;
 
-import nl.lotocars.rental.Enum.Color;
-import nl.lotocars.rental.Enum.Fuel;
-import nl.lotocars.rental.Enum.Make;
-import nl.lotocars.rental.Enum.Transmission;
+import nl.lotocars.rental.Enum.*;
 import nl.lotocars.rental.entities.Car;
 import nl.lotocars.rental.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,9 +17,11 @@ public interface CarRepository extends JpaRepository<Car, Long> {
 
     Optional<Car> findByNumberPlate(String numberPlate);
 
-    @Query("SELECT c FROM Car c WHERE " +
+    @Query("SELECT c FROM Car c WHERE c.isActive = 1 AND " +
             "(:city is null OR c.location.city = :city) AND " +
-            "((:pickupdate is null AND :dropoffdate is null) OR (NOT EXISTS (SELECT a FROM Agreement a WHERE a.car.id = c.id AND (:pickupdate BETWEEN a.startDate AND a.endDate OR :dropoffdate BETWEEN a.startDate AND a.endDate)))) AND " +
+            "((:pickupdate is null AND :dropoffdate is null) OR (NOT EXISTS (SELECT a FROM Agreement a WHERE a.car.id = c.id AND a.status != :statusCanceled AND " +
+            "((:pickupdate BETWEEN a.startDate AND a.endDate)  OR  (:dropoffdate BETWEEN a.startDate AND a.endDate) OR " +
+            "((a.startDate BETWEEN :pickupdate AND :dropoffdate)  AND  (a.endDate BETWEEN :pickupdate AND :dropoffdate)))))) AND " +
             "(:make is null OR c.make = :make) AND " +
             "(:model is null OR c.model LIKE %:model%) AND " +
             "(:color is null OR c.color = :color) AND " +
@@ -47,8 +46,9 @@ public interface CarRepository extends JpaRepository<Car, Long> {
             @Param("doors") int doors,
             @Param("seats") int seats,
             @Param("bootspace") int bootspace,
-            @Param("nonsmoking") int nonsmoking
-    );
+            @Param("nonsmoking") int nonsmoking,
+            @Param("statusCanceled")AgreementStatus.agreemtStatus statusCanceled
+            );
 
     Collection<Car> findByUser(User owner);
 
