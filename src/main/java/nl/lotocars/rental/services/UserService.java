@@ -65,4 +65,14 @@ public class UserService implements UserDetailsService {
         return new UserPrincipal(user);
     }
 
+    @Transactional(readOnly = false)
+    public Boolean checkIfUserEmailAddressExists(String userEmailAddress){
+        var searchedUsername = userRepository.findByUserEmailAddress(userEmailAddress);
+        if (searchedUsername == null){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
 }

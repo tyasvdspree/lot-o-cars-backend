@@ -61,6 +61,7 @@ public class UserController {
     public ResponseEntity<User> getProfile(@AuthenticationPrincipal UserPrincipal rentee){
         UserPrincipal user = (UserPrincipal) userService.loadUserByUsername(rentee.getUsername());
         User loggedInUser = new User();
+        loggedInUser.setId(user.getUserId());
         loggedInUser.setUsername(user.getUsername());
         loggedInUser.setFirstname(user.getFirstName());
         loggedInUser.setLastname(user.getLastName());
@@ -84,5 +85,12 @@ public class UserController {
 
         userService.editUser(userToChange);
         return new ResponseEntity<>(userToChange, HttpStatus.OK);
+    }
+
+    @GetMapping("/checkUserEmailAddress")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Boolean> checkIfUserEmailAddressExists(@RequestParam("userId") String userId, @RequestParam("userEmailAddress") String userEmailAddress){
+        var usernameDoesExist = userService.checkIfUserEmailAddressExists(userEmailAddress);
+        return new ResponseEntity<Boolean>(usernameDoesExist, HttpStatus.OK);
     }
 }
