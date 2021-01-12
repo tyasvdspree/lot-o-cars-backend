@@ -79,10 +79,9 @@ public class CarService {
     public Car registerCar(Car car, UserPrincipal loggedInUser){
         UserPrincipal user = (UserPrincipal) userService.loadUserByUsername(loggedInUser.getUsername());
         car.setUser(user.getUser());
-        car.setLocation(locationRepository.getOne((long) 1));
+        car.setLocation(locationRepository.findById((long) 1).get());
         carRepository.save(car);
         return car;
-
     }
 
     @Transactional(readOnly = false)
