@@ -1,9 +1,13 @@
 package nl.lotocars.rental.services;
 
 import lombok.RequiredArgsConstructor;
+import nl.lotocars.rental.entities.Location;
 import nl.lotocars.rental.entities.User;
 import nl.lotocars.rental.entities.UserPrincipal;
+import nl.lotocars.rental.reposetories.LocationRepository;
 import nl.lotocars.rental.reposetories.UserRepository;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collection;
 import java.util.Optional;
 
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.ignoreCase;
+
 
 @Service
 @Transactional(readOnly = true)
@@ -21,6 +27,7 @@ import java.util.Optional;
 public class UserService implements UserDetailsService {
     private static int workload = 10;
     private final UserRepository userRepository;
+    private final LocationRepository locationRepository;
 
     public Collection<User> getUsers() {
         return userRepository.findAll();
@@ -42,6 +49,13 @@ public class UserService implements UserDetailsService {
         newUser.setEmailaddress(user.getEmailaddress());
         newUser.setBrokerFee(5);
         newUser.setActive(true);
+        ExampleMatcher modelMatcher = ExampleMatcher.matching()
+                .withIgnorePaths("id")
+                .withMatcher("model", ignoreCase());
+        Example<Location> example = Example.of(user.getLocation(), modelMatcher);
+        locationRepository.findOne(example).ifPresentOrElse(
+                newUser::setLocation,
+                () -> newUser.setLocation(locationRepository.save(user.getLocation())));
         return userRepository.save(newUser);
     }
 
