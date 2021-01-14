@@ -65,7 +65,6 @@ public class UserService implements UserDetailsService {
         return new UserPrincipal(user);
     }
 
-    @Transactional(readOnly = false)
     public Boolean checkIfUserEmailAddressExists(String userId, String userEmailAddress){
         var userById = userRepository.findUserByUserId(Long.parseLong(userId));
         var userByEmailAddress = userRepository.findUserByUserEmailAddress(userEmailAddress);
@@ -80,6 +79,17 @@ public class UserService implements UserDetailsService {
             else{
                 return true;
             }
+        }
+    }
+
+    @Transactional(readOnly = false)
+    public Boolean checkIfUsernameExists(String username){
+        var userByUsername = userRepository.findByUsername(username);
+        if (userByUsername.isEmpty()){
+            return false;
+        }
+        else{
+            return true;
         }
     }
 }
