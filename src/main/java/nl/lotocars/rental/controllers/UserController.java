@@ -90,7 +90,7 @@ public class UserController {
     @GetMapping("/checkUserEmailAddress")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Boolean> checkIfUserEmailAddressExists(@RequestParam("userId") String userId, @RequestParam("userEmailAddress") String userEmailAddress){
-        var usernameDoesExist = userService.checkIfUserEmailAddressExists(userEmailAddress);
+        var usernameDoesExist = userService.checkIfUserEmailAddressExists(userId, userEmailAddress);
         return new ResponseEntity<Boolean>(usernameDoesExist, HttpStatus.OK);
     }
 }

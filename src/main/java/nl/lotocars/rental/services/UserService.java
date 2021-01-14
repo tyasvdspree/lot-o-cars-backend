@@ -66,13 +66,20 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional(readOnly = false)
-    public Boolean checkIfUserEmailAddressExists(String userEmailAddress){
-        var searchedUsername = userRepository.findByUserEmailAddress(userEmailAddress);
-        if (searchedUsername == null){
+    public Boolean checkIfUserEmailAddressExists(String userId, String userEmailAddress){
+        var userById = userRepository.findUserByUserId(Long.parseLong(userId));
+        var userByEmailAddress = userRepository.findUserByUserEmailAddress(userEmailAddress);
+
+        if (userByEmailAddress == null){
             return false;
         }
         else{
-            return true;
+            if (userById.getEmailaddress() == userByEmailAddress.getEmailaddress()){
+                return false;
+            }
+            else{
+                return true;
+            }
         }
     }
 }
