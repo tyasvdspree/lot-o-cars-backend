@@ -76,4 +76,16 @@ public class AgreementService {
 
         return agreement;
     }
+
+    public Collection<Agreement> findByRenteeAndYears(
+            User user,
+            Integer startYear,
+            Integer endYear
+    ){
+        //UserPrincipal userPrincipal =
+        //        (UserPrincipal) userService.loadUserByUsername(loggedInUser.getUsername());
+        //User user = userPrincipal.getUser();
+
+        return agreementRepository.findByRenteeAndYears(user, startYear, endYear);
+    }
 }
