@@ -24,4 +24,6 @@ public class UserDto {
 
     private String emailaddress;
 
+    private String password;
+
 }

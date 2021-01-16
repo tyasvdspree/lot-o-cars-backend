@@ -32,7 +32,7 @@ public class UserService implements UserDetailsService {
 
 
     @Transactional(readOnly = false)
-    public User registerUser(User user){
+    public Optional<User> registerUser(User user){
         User newUser = new User();
         newUser.setUsername(user.getUsername());
         newUser.setPassword(hashPassword(user.getPassword()));
@@ -42,7 +42,7 @@ public class UserService implements UserDetailsService {
         newUser.setEmailaddress(user.getEmailaddress());
         newUser.setBrokerFee(5);
         newUser.setActive(true);
-        return userRepository.save(newUser);
+        return Optional.ofNullable(userRepository.save(newUser));
     }
 
     @Transactional(readOnly = false)

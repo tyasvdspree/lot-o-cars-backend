@@ -9,7 +9,6 @@ import nl.lotocars.rental.mapper.UserMapper;
 import nl.lotocars.rental.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,12 +47,11 @@ public class UserController {
         return new ResponseEntity<>(mappedUser, HttpStatus.OK);
     }
 
-    @PutMapping("")
+    @PostMapping("")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<User> registerUser(@RequestBody User inputUser){
-       userService.registerUser(inputUser);
-//        UserDto mappedUser = userMapper.mapToDestination(newUser);
-        return new ResponseEntity<>(inputUser, HttpStatus.OK);
+    public ResponseEntity<UserDto> registerUser(@RequestBody UserDto inputUserDto){
+        userService.registerUser(userMapper.mapToSource(inputUserDto));
+        return new ResponseEntity<>(inputUserDto, HttpStatus.OK);
     }
 
     @GetMapping("/me")
@@ -91,20 +89,20 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Boolean> checkIfUserEmailAddressExists(@RequestParam("userId") String userId, @RequestParam("userEmailAddress") String userEmailAddress){
         var usernameDoesExist = userService.checkIfUserEmailAddressExists(userId, userEmailAddress);
-        return new ResponseEntity<Boolean>(usernameDoesExist, HttpStatus.OK);
+        return new ResponseEntity<>(usernameDoesExist, HttpStatus.OK);
     }
 
     @GetMapping("/checkUsername")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Boolean> checkIfUsernameExists(@RequestParam("username") String username){
         var usernameDoesExist = userService.checkIfUsernameExists(username);
-        return new ResponseEntity<Boolean>(usernameDoesExist, HttpStatus.OK);
+        return new ResponseEntity<>(usernameDoesExist, HttpStatus.OK);
     }
 
     @GetMapping("checkIfEmailAddressExistsAtRegistration")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Boolean> checkIfEmailAddressExistsAtRegistration(@RequestParam("userEmailAddress") String userEmailAddress){
         var usernameDoesExist = userService.checkIfEmailAddressExistsAtRegistration(userEmailAddress);
-        return new ResponseEntity<Boolean>(usernameDoesExist, HttpStatus.OK);
+        return new ResponseEntity<>(usernameDoesExist, HttpStatus.OK);
     }
 }
