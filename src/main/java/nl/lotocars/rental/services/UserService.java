@@ -92,4 +92,14 @@ public class UserService implements UserDetailsService {
             return true;
         }
     }
+
+    public Boolean checkIfEmailAddressExistsAtRegistration(String userEmailAddress){
+        var userByEmailAddress = userRepository.findUserByUserEmailAddress(userEmailAddress);
+        if (userByEmailAddress == null){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
 }

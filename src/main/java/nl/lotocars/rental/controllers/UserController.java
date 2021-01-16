@@ -100,4 +100,11 @@ public class UserController {
         var usernameDoesExist = userService.checkIfUsernameExists(username);
         return new ResponseEntity<Boolean>(usernameDoesExist, HttpStatus.OK);
     }
+
+    @GetMapping("checkIfEmailAddressExistsAtRegistration")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Boolean> checkIfEmailAddressExistsAtRegistration(@RequestParam("userEmailAddress") String userEmailAddress){
+        var usernameDoesExist = userService.checkIfEmailAddressExistsAtRegistration(userEmailAddress);
+        return new ResponseEntity<Boolean>(usernameDoesExist, HttpStatus.OK);
+    }
 }
