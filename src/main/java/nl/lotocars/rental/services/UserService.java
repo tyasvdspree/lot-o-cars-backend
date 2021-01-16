@@ -32,7 +32,7 @@ public class UserService implements UserDetailsService {
 
 
     @Transactional(readOnly = false)
-    public User registerUser(User user){
+    public Optional<User> registerUser(User user){
         User newUser = new User();
         newUser.setUsername(user.getUsername());
         newUser.setPassword(hashPassword(user.getPassword()));
@@ -42,7 +42,7 @@ public class UserService implements UserDetailsService {
         newUser.setEmailaddress(user.getEmailaddress());
         newUser.setBrokerFee(5);
         newUser.setActive(true);
-        return userRepository.save(newUser);
+        return Optional.ofNullable(userRepository.save(newUser));
     }
 
     @Transactional(readOnly = false)
@@ -65,4 +65,41 @@ public class UserService implements UserDetailsService {
         return new UserPrincipal(user);
     }
 
+    public Boolean checkIfUserEmailAddressExists(String userId, String userEmailAddress){
+        var userById = userRepository.findUserByUserId(Long.parseLong(userId));
+        var userByEmailAddress = userRepository.findUserByUserEmailAddress(userEmailAddress);
+
+        if (userByEmailAddress == null){
+            return false;
+        }
+        else{
+            if (userById.getEmailaddress() == userByEmailAddress.getEmailaddress()){
+                return false;
+            }
+            else{
+                return true;
+            }
+        }
+    }
+
+    @Transactional(readOnly = false)
+    public Boolean checkIfUsernameExists(String username){
+        var userByUsername = userRepository.findByUsername(username);
+        if (userByUsername.isEmpty()){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
+    public Boolean checkIfEmailAddressExistsAtRegistration(String userEmailAddress){
+        var userByEmailAddress = userRepository.findUserByUserEmailAddress(userEmailAddress);
+        if (userByEmailAddress == null){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
 }
