@@ -3,9 +3,11 @@ package nl.lotocars.rental.controllers;
 import lombok.RequiredArgsConstructor;
 import nl.lotocars.rental.Errors.UserNotFoundException;
 import nl.lotocars.rental.dtos.UserDto;
+import nl.lotocars.rental.entities.Location;
 import nl.lotocars.rental.entities.User;
 import nl.lotocars.rental.entities.UserPrincipal;
 import nl.lotocars.rental.mapper.UserMapper;
+import nl.lotocars.rental.services.LocationService;
 import nl.lotocars.rental.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,7 @@ public class UserController {
 
     private final UserService userService;
     private final UserMapper userMapper;
+    private final LocationService locationService;
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
@@ -66,6 +69,7 @@ public class UserController {
         loggedInUser.setPhonenumber(user.getPhoneNumber());
         loggedInUser.setEmailaddress(user.getEmailAddress());
         loggedInUser.setPassword("******");
+        loggedInUser.setLocation(user.getUser().getLocation());
         return new ResponseEntity<>(loggedInUser, HttpStatus.OK);
     }
 
@@ -81,6 +85,7 @@ public class UserController {
         userToChange.setEmailaddress((inputUser.getEmailaddress() != null && !inputUser.getEmailaddress().isEmpty()) ? inputUser.getEmailaddress() : user.getEmailAddress());
         userToChange.setPassword((inputUser.getPassword() != null && !inputUser.getPassword().isEmpty()) ? inputUser.getPassword() : user.getPassword());
 
+        userToChange.setLocation(locationService.findOrCreateLocation(inputUser.getLocation()));
         userService.editUser(userToChange);
         return new ResponseEntity<>(userToChange, HttpStatus.OK);
     }
