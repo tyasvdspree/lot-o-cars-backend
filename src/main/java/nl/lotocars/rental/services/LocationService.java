@@ -17,7 +17,7 @@ public class LocationService {
 
     public Location findOrCreateLocation(Location location){
         ExampleMatcher modelMatcher = ExampleMatcher.matching()
-                .withIgnorePaths("id")//, "longitude", "latitude", "addressLine2", "version", "createdDate", "lastModified")
+                .withIgnorePaths("id", "longitude", "latitude", "version", "createdDate", "lastModified")
                 .withMatcher("model", ignoreCase());
         Example<Location> example = Example.of(location, modelMatcher);
         return locationRepository.findOne(example).orElseGet(() -> locationRepository.save(location));
