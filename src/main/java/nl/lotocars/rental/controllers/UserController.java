@@ -4,9 +4,11 @@ import lombok.RequiredArgsConstructor;
 import nl.lotocars.rental.Errors.UserNotFoundException;
 import nl.lotocars.rental.dtos.CarDto;
 import nl.lotocars.rental.dtos.UserDto;
+import nl.lotocars.rental.entities.Location;
 import nl.lotocars.rental.entities.User;
 import nl.lotocars.rental.entities.UserPrincipal;
 import nl.lotocars.rental.mapper.UserMapper;
+import nl.lotocars.rental.services.LocationService;
 import nl.lotocars.rental.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,7 @@ public class UserController {
 
     private final UserService userService;
     private final UserMapper userMapper;
+    private final LocationService locationService;
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
@@ -82,6 +85,7 @@ public class UserController {
                 userToChange.setPassword(userService.hashPassword(inputUser.getPassword()));
             }
         }
+        userToChange.setLocation(locationService.findOrCreateLocation(inputUser.getLocation()));
         userService.editUser(userToChange);
         return new ResponseEntity<>(userToChange, HttpStatus.OK);
     }
