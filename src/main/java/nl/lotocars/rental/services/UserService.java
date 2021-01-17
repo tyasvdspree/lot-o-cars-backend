@@ -61,7 +61,6 @@ public class UserService implements UserDetailsService {
 
     @Transactional(readOnly = false)
     public User editUser(User user){
-        user.setPassword(hashPassword(user.getPassword()));
         return userRepository.save(user);
     }
 

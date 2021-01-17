@@ -2,6 +2,7 @@ package nl.lotocars.rental.controllers;
 
 import lombok.RequiredArgsConstructor;
 import nl.lotocars.rental.Errors.UserNotFoundException;
+import nl.lotocars.rental.dtos.CarDto;
 import nl.lotocars.rental.dtos.UserDto;
 import nl.lotocars.rental.entities.User;
 import nl.lotocars.rental.entities.UserPrincipal;
@@ -10,6 +11,7 @@ import nl.lotocars.rental.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -57,16 +59,9 @@ public class UserController {
     @GetMapping("/me")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<User> getProfile(@AuthenticationPrincipal UserPrincipal rentee){
-        UserPrincipal user = (UserPrincipal) userService.loadUserByUsername(rentee.getUsername());
-        User loggedInUser = new User();
-        loggedInUser.setId(user.getUserId());
-        loggedInUser.setUsername(user.getUsername());
-        loggedInUser.setFirstname(user.getFirstName());
-        loggedInUser.setLastname(user.getLastName());
-        loggedInUser.setPhonenumber(user.getPhoneNumber());
-        loggedInUser.setEmailaddress(user.getEmailAddress());
-        loggedInUser.setPassword("******");
-        return new ResponseEntity<>(loggedInUser, HttpStatus.OK);
+        UserPrincipal userPrincipal = (UserPrincipal) userService.loadUserByUsername(rentee.getUsername());
+        User user = userService.getUser(userPrincipal.getUserId()).get();
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PutMapping("/editme")
@@ -74,13 +69,19 @@ public class UserController {
     public ResponseEntity<User> editUser(@AuthenticationPrincipal UserPrincipal loggedUser, @RequestBody User inputUser){
         UserPrincipal user = (UserPrincipal) userService.loadUserByUsername(loggedUser.getUsername());
         User userToChange = user.getUser();
-
         userToChange.setFirstname((inputUser.getFirstname() != null && !inputUser.getFirstname().isEmpty()) ? inputUser.getFirstname() : user.getFirstName());
         userToChange.setLastname((inputUser.getLastname() != null && !inputUser.getLastname().isEmpty()) ? inputUser.getLastname() : user.getLastName());
         userToChange.setPhonenumber((inputUser.getPhonenumber() != null && !inputUser.getPhonenumber().isEmpty()) ? inputUser.getPhonenumber() : user.getPhoneNumber());
         userToChange.setEmailaddress((inputUser.getEmailaddress() != null && !inputUser.getEmailaddress().isEmpty()) ? inputUser.getEmailaddress() : user.getEmailAddress());
-        userToChange.setPassword((inputUser.getPassword() != null && !inputUser.getPassword().isEmpty()) ? inputUser.getPassword() : user.getPassword());
 
+        var passwordNeedsToChange = loggedUser.getPassword().hashCode() != inputUser.getPassword().hashCode() && !loggedUser.getPassword().equals(inputUser.getPassword());
+        var passwordIsAterisk = "*****".hashCode() == inputUser.getPassword().hashCode() && "*****".equals(inputUser.getPassword());
+
+        if (passwordIsAterisk == false){
+            if (passwordNeedsToChange == true){
+                userToChange.setPassword(userService.hashPassword(inputUser.getPassword()));
+            }
+        }
         userService.editUser(userToChange);
         return new ResponseEntity<>(userToChange, HttpStatus.OK);
     }
