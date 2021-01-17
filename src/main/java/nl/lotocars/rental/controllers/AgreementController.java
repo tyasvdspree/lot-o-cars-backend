@@ -4,12 +4,18 @@ import lombok.RequiredArgsConstructor;
 import nl.lotocars.rental.Enum.AgreementStatus;
 import nl.lotocars.rental.Errors.AgreementNotFoundException;
 import nl.lotocars.rental.Errors.CarNotFoundException;
+import nl.lotocars.rental.Errors.UserNotFoundException;
+import nl.lotocars.rental.dtos.AgreementCalculatedDto;
 import nl.lotocars.rental.dtos.AgreementDto;
 import nl.lotocars.rental.dtos.AgreementStatusDto;
+import nl.lotocars.rental.dtos.CarDto;
 import nl.lotocars.rental.entities.Agreement;
+import nl.lotocars.rental.entities.User;
 import nl.lotocars.rental.entities.UserPrincipal;
+import nl.lotocars.rental.mapper.AgreementCalculatedMapper;
 import nl.lotocars.rental.mapper.AgreementMapper;
 import nl.lotocars.rental.services.AgreementService;
+import nl.lotocars.rental.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -28,8 +34,10 @@ import java.util.stream.Collectors;
 @RequestMapping("agreement")
 public class AgreementController {
 
+    private final UserService userService;
     private final AgreementService agreementService;
     private final AgreementMapper agreementMapper;
+    private final AgreementCalculatedMapper agreementCalculatedMapper;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -71,6 +79,25 @@ public class AgreementController {
         );
 
         return new ResponseEntity<Collection<LocalDate>>(dates, HttpStatus.OK);
+    }
+
+    @GetMapping("/rentee_years/{userName}/{startYear}/{endYear}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Collection<AgreementCalculatedDto>> getAgreementsOfRenteeAndYears(
+            @PathVariable String userName,
+            @PathVariable Integer startYear,
+            @PathVariable Integer endYear
+    ){
+        UserPrincipal userPrincipal =
+                (UserPrincipal) userService.loadUserByUsername(userName);
+        User user = userPrincipal.getUser();
+
+        Collection<Agreement> agreements =
+                agreementService.findByRenteeAndYears(user, startYear, endYear);
+
+        Collection<AgreementCalculatedDto> mappedAgreements = agreements.parallelStream()
+                .map(agreementCalculatedMapper::mapToDestination).collect(Collectors.toList());
+        return new ResponseEntity<>(mappedAgreements, HttpStatus.OK);
     }
 
     @PostMapping
