@@ -39,11 +39,11 @@ public class AgreementService {
 
     public Agreement createAgreement(Agreement agreement, UserPrincipal loggedInUser){
         Car car = carService.getCarById(agreement.getCar().getId()).orElseThrow(() -> new CarNotFoundException());
-        UserPrincipal rentee = (UserPrincipal) userService.loadUserByUsername(loggedInUser.getUsername());
+        UserPrincipal renter = (UserPrincipal) userService.loadUserByUsername(loggedInUser.getUsername());
         agreement.setBrokerFee(car.getUser().getBrokerFee());
         agreement.setRentPricePerHour(car.getRentPricePerHour());
-        agreement.setRenter(car.getUser());
-        agreement.setRentee(rentee.getUser());
+        agreement.setRenter(renter.getUser());
+        agreement.setRentee(car.getUser());
         agreement.setCar(car);
         agreement.setStatus(AgreementStatus.agreemtStatus.PENDING);
         return agreementRepository.save(agreement);
