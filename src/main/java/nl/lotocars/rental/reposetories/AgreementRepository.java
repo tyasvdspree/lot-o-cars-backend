@@ -29,6 +29,7 @@ public interface AgreementRepository extends JpaRepository<Agreement, Long> {
 
     @Query("SELECT a FROM Agreement a WHERE " +
             "a.status != 2 AND " +
+            "a.renter != a.rentee AND " +
             "a.rentee = :rentee AND " +
             "YEAR(a.startDate) BETWEEN :startYear AND :endYear"
     )
