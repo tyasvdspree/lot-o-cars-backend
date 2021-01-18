@@ -97,6 +97,24 @@ public class CarService {
 
     @Transactional(readOnly = false)
     public Car saveCar(Car car){
-        return carRepository.save(car);
+        System.out.println();
+        ExampleMatcher modelMatcherCar = ExampleMatcher.matching()
+                .withMatcher("model", ignoreCase());
+        Example<Car> exampleCar = Example.of(car, modelMatcherCar);
+        var getCar = carRepository.findById(exampleCar.getProbe().getId()).orElseThrow(RuntimeException::new);
+
+        getCar.setLocation(exampleCar.getProbe().getLocation());
+
+        ExampleMatcher modelMatcherLocation = ExampleMatcher.matching()
+                .withIgnorePaths("id", "longitude", "latitude", "version", "createdDate", "lastModified")
+                .withMatcher("model", ignoreCase());
+        Example<Location> exampleLocation = Example.of(getCar.getLocation(), modelMatcherLocation);
+        locationRepository.findOne(exampleLocation).ifPresentOrElse(
+                getCar::setLocation,
+                () -> getCar.setLocation(locationRepository.save(getCar.getLocation())));
+
+        carRepository.save(getCar);
+
+        return getCar;
     }
 }

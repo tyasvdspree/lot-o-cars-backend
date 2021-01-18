@@ -10,6 +10,7 @@ import nl.lotocars.rental.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -42,5 +43,14 @@ public class CarController {
         Collection<CarDto> mappedCars = cars.parallelStream()
                 .map(carMapper::mapToDestination).collect(Collectors.toList());
         return new ResponseEntity<>(mappedCars, HttpStatus.OK);
+    }
+
+    @PutMapping("/editmycar")
+    @ResponseStatus(HttpStatus.OK)
+    @Transactional(readOnly = false)
+    public Car editCar(@RequestBody CarDto carDto){
+        Car mappedCar = carMapper.mapToSource(carDto);
+        carService.saveCar(mappedCar);
+        return mappedCar;
     }
 }
