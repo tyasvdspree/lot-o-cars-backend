@@ -3,15 +3,10 @@ package nl.lotocars.rental.entities;
 import lombok.Getter;
 import lombok.Setter;
 import nl.lotocars.rental.Enum.*;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter

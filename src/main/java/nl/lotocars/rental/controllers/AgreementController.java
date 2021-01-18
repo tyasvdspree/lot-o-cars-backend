@@ -1,9 +1,7 @@
 package nl.lotocars.rental.controllers;
 
 import lombok.RequiredArgsConstructor;
-import nl.lotocars.rental.Enum.AgreementStatus;
-import nl.lotocars.rental.Errors.AgreementNotFoundException;
-import nl.lotocars.rental.Errors.CarNotFoundException;
+import nl.lotocars.rental.exceptions.AgreementNotFoundException;
 import nl.lotocars.rental.dtos.AgreementDto;
 import nl.lotocars.rental.dtos.AgreementStatusDto;
 import nl.lotocars.rental.entities.Agreement;

@@ -1,7 +1,7 @@
 package nl.lotocars.rental.controllers;
 
 import lombok.RequiredArgsConstructor;
-import nl.lotocars.rental.Errors.UserNotFoundException;
+import nl.lotocars.rental.exceptions.UserNotFoundException;
 import nl.lotocars.rental.dtos.UserDto;
 import nl.lotocars.rental.entities.User;
 import nl.lotocars.rental.entities.UserPrincipal;

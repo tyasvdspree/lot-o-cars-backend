@@ -1,4 +1,4 @@
-package nl.lotocars.rental.Errors;
+package nl.lotocars.rental.exceptions;
 
 public class LotocarsException extends RuntimeException {
     public LotocarsException(String exMessage, Exception exception) {

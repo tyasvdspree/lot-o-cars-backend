@@ -1,7 +1,7 @@
 package nl.lotocars.rental.controllers;
 
 import lombok.RequiredArgsConstructor;
-import nl.lotocars.rental.Errors.CarImageNotFoundException;
+import nl.lotocars.rental.exceptions.CarImageNotFoundException;
 import nl.lotocars.rental.mapper.CarImageMapper;
 import nl.lotocars.rental.entities.CarImage;
 import nl.lotocars.rental.services.CarImageService;
