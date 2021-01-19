@@ -103,7 +103,11 @@ public class CarService {
         Example<Car> exampleCar = Example.of(car, modelMatcherCar);
         var getCar = carRepository.findById(exampleCar.getProbe().getId()).orElseThrow(RuntimeException::new);
 
+        getCar.setRentPricePerHour(exampleCar.getProbe().getRentPricePerHour());
         getCar.setLocation(exampleCar.getProbe().getLocation());
+        getCar.setAirco(exampleCar.getProbe().isAirco());
+        getCar.setNavigation(exampleCar.getProbe().isNavigation());
+        getCar.setSmokingIsAllowed(exampleCar.getProbe().isSmokingIsAllowed());
 
         ExampleMatcher modelMatcherLocation = ExampleMatcher.matching()
                 .withIgnorePaths("id", "longitude", "latitude", "version", "createdDate", "lastModified")
