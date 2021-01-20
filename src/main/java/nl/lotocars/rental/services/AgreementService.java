@@ -3,6 +3,7 @@ package nl.lotocars.rental.services;
 import lombok.RequiredArgsConstructor;
 import nl.lotocars.rental.Enum.AgreementStatus;
 import nl.lotocars.rental.Errors.CarNotFoundException;
+import nl.lotocars.rental.dtos.BrokerFeeTotalDto;
 import nl.lotocars.rental.entities.Agreement;
 import nl.lotocars.rental.entities.Car;
 import nl.lotocars.rental.entities.User;
@@ -82,10 +83,13 @@ public class AgreementService {
             Integer startYear,
             Integer endYear
     ){
-        //UserPrincipal userPrincipal =
-        //        (UserPrincipal) userService.loadUserByUsername(loggedInUser.getUsername());
-        //User user = userPrincipal.getUser();
-
         return agreementRepository.findByRenteeAndYears(user, startYear, endYear);
+    }
+
+    public Collection<BrokerFeeTotalDto> getBrokerFeeTotals(
+            Integer startYear,
+            Integer endYear
+    ){
+        return agreementRepository.getBrokerFeeTotals(startYear, endYear);
     }
 }

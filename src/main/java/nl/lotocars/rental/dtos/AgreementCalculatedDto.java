@@ -35,7 +35,7 @@ public class AgreementCalculatedDto {
 
     private Long numOfDays;
 
-    private double totalPrice;
+    private double total;
 
     private double brokerCosts;
 

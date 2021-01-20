@@ -27,9 +27,9 @@ public abstract class AgreementCalculatedMapper {
         dto.setNumberPlate(agreement.getCar().getNumberPlate());
 
         dto.setNumOfDays(TimeUnit.DAYS.convert(agreement.getEndDate().getTime() - agreement.getStartDate().getTime(), TimeUnit.MILLISECONDS) + 1);
-        dto.setTotalPrice(dto.getNumOfDays() * agreement.getRentPricePerHour());
-        dto.setBrokerCosts(agreement.getBrokerFee() * dto.getTotalPrice() * 0.01);
-        dto.setProfit(dto.getTotalPrice() - dto.getBrokerCosts());
+        dto.setTotal(dto.getNumOfDays() * agreement.getRentPricePerHour());
+        dto.setBrokerCosts(agreement.getBrokerFee() * dto.getTotal() * 0.01);
+        dto.setProfit(dto.getTotal() - dto.getBrokerCosts());
 
         LocalDate startDate = agreement.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         dto.setYear(startDate.getYear());
