@@ -109,6 +109,14 @@ public class AgreementController {
         return new ResponseEntity<>(totals, HttpStatus.OK);
     }
 
+    @GetMapping("/general_counts")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Collection<KeyValueDto>> getBrokerFeeTotalsOfYears(){
+        Collection<KeyValueDto> counts = agreementService.getGeneralCounts();
+        return new ResponseEntity<>(counts, HttpStatus.OK);
+    }
+
+
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<AgreementDto> addAgreement(

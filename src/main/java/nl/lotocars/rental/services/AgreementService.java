@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import nl.lotocars.rental.Enum.AgreementStatus;
 import nl.lotocars.rental.Errors.CarNotFoundException;
 import nl.lotocars.rental.dtos.BrokerFeeTotalDto;
+import nl.lotocars.rental.dtos.KeyValueDto;
 import nl.lotocars.rental.entities.Agreement;
 import nl.lotocars.rental.entities.Car;
 import nl.lotocars.rental.entities.User;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -91,5 +93,12 @@ public class AgreementService {
             Integer endYear
     ){
         return agreementRepository.getBrokerFeeTotals(startYear, endYear);
+    }
+
+    public Collection<KeyValueDto> getGeneralCounts() {
+        Collection<KeyValueDto> result = new ArrayList<KeyValueDto>();
+        result.add(agreementRepository.getGeneralRenteeCount());
+        result.add(agreementRepository.getGeneralRenterCount());
+        return result;
     }
 }

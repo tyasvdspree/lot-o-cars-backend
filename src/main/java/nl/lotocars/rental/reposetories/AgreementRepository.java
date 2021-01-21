@@ -1,6 +1,7 @@
 package nl.lotocars.rental.reposetories;
 
 import nl.lotocars.rental.dtos.BrokerFeeTotalDto;
+import nl.lotocars.rental.dtos.KeyValueDto;
 import nl.lotocars.rental.entities.Agreement;
 import nl.lotocars.rental.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -62,5 +63,14 @@ public interface AgreementRepository extends JpaRepository<Agreement, Long> {
             @Param("startYear") Integer startYear,
             @Param("endYear") Integer endYear
     );
+
+
+    @Query("SELECT new nl.lotocars.rental.dtos.KeyValueDto('Rentees', COUNT(DISTINCT a.rentee.id)) FROM Agreement a"
+    )
+    KeyValueDto getGeneralRenteeCount();
+
+    @Query("SELECT new nl.lotocars.rental.dtos.KeyValueDto('Renters', COUNT(DISTINCT a.renter.id)) FROM Agreement a"
+    )
+    KeyValueDto getGeneralRenterCount();
 
 }
