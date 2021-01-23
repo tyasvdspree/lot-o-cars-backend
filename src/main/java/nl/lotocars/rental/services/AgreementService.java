@@ -2,6 +2,7 @@ package nl.lotocars.rental.services;
 
 import lombok.RequiredArgsConstructor;
 import nl.lotocars.rental.Enum.AgreementStatus;
+import nl.lotocars.rental.Errors.AgreementNotFoundException;
 import nl.lotocars.rental.Errors.CarNotFoundException;
 import nl.lotocars.rental.dtos.BrokerFeeTotalDto;
 import nl.lotocars.rental.dtos.KeyValueDto;
@@ -118,6 +119,12 @@ public class AgreementService {
         double sum = values.stream().mapToDouble(ds -> Double.parseDouble(ds)).sum();
         double avg = sum / pairs.size();
         return new KeyValueDto(label, Double.toString(avg));
+    }
+
+    public Agreement setPayment(long id){
+        Agreement agreement = agreementRepository.getOne(id);
+        agreement.setPayed(true);
+        return agreementRepository.save(agreement);
     }
 
 }
