@@ -73,4 +73,19 @@ public interface AgreementRepository extends JpaRepository<Agreement, Long> {
     )
     KeyValueDto getGeneralRenterCount();
 
+    @Query("SELECT new nl.lotocars.rental.dtos.KeyValueDto(YEAR(a.startDate), COUNT(*)) " +
+            "FROM Agreement a WHERE a.status = 2 GROUP BY YEAR(a.startDate)"
+    )
+    Collection<KeyValueDto> getGeneralAverageCancellationsPerYear();
+
+    @Query("SELECT new nl.lotocars.rental.dtos.KeyValueDto(YEAR(a.startDate), COUNT(*)) " +
+            "FROM Agreement a WHERE a.status != 2 GROUP BY YEAR(a.startDate)"
+    )
+    Collection<KeyValueDto> getGeneralAverageAgreementsPerYear();
+
+    @Query("SELECT new nl.lotocars.rental.dtos.KeyValueDto(YEAR(a.startDate), COUNT(DISTINCT a.car.id)) " +
+            "FROM Agreement a WHERE a.status != 2 GROUP BY YEAR(a.startDate)"
+    )
+    Collection<KeyValueDto> getGeneralAverageInvolvedCarsPerYear();
+
 }

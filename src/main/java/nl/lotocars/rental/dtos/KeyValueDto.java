@@ -18,4 +18,9 @@ public class KeyValueDto {
         this.key = key;
         this.value = value.toString();
     }
+
+    public KeyValueDto(Integer key, Long value) {
+        this.key = key.toString();
+        this.value = value.toString();
+    }
 }
