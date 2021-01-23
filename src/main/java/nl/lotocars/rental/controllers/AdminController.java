@@ -25,46 +25,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AdminController {
 
-    private final BrokerFeeService brokerFeeService;
-    private final BrokerFeeMapper brokerFeeMapper;
     private final UserService userService;
-
-    @GetMapping("/brokerfee")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Collection<BrokerFeeRequestDto>> getBrokerfeeRequests(){
-        Collection<BrokerFeeRequest> brokerFeeRequests = brokerFeeService.getAll();
-        Collection<BrokerFeeRequestDto> mappedBrokerFeeRequests = brokerFeeRequests.parallelStream()
-                .map(brokerFeeMapper::mapToDestination).collect(Collectors.toList());
-        return new ResponseEntity<>(mappedBrokerFeeRequests, HttpStatus.OK);
-    }
-
-    @GetMapping("/brokerfee/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<BrokerFeeRequestDto> getBrokerfeeRequest(@PathVariable Long id){
-        Optional<BrokerFeeRequest> brokerFeeRequest = brokerFeeService.getOne(id);
-        if(!brokerFeeRequest.isPresent()){
-            throw new AgreementNotFoundException();
-        }
-        BrokerFeeRequestDto brokerFeeDto = brokerFeeMapper.mapToDestination(brokerFeeRequest.get());
-        return new ResponseEntity<>(brokerFeeDto, HttpStatus.OK);
-    }
-
-    @PutMapping("/brokerfee/{id}/status")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<BrokerFeeRequestDto> setBrokerfeeStatus(@RequestBody BrokerFeeStatusDto newStatus){
-
-        Optional<BrokerFeeRequest> brokerFeeRequest = brokerFeeService.setStatus(
-                newStatus.getId(),
-                newStatus.getStatus(),
-                newStatus.getReason()
-        );
-
-        if(!brokerFeeRequest.isPresent()){
-            throw new AgreementNotFoundException();
-        }
-
-        return new ResponseEntity<>(brokerFeeMapper.mapToDestination(brokerFeeRequest.get()), HttpStatus.OK);
-    }
 
     @PostMapping("/user/{id}/addrole")
     public ResponseEntity addRole(@PathVariable("id") Long userId, @Valid @RequestBody Long roleId, BindingResult result) {
