@@ -4,7 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import nl.lotocars.rental.Errors.LotocarsException;
+import nl.lotocars.rental.exceptions.LotocarsException;
 import nl.lotocars.rental.entities.UserPrincipal;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
