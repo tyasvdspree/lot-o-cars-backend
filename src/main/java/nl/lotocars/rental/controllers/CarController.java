@@ -48,9 +48,9 @@ public class CarController {
     @PutMapping("/editmycar")
     @ResponseStatus(HttpStatus.OK)
     @Transactional(readOnly = false)
-    public Car editCar(@RequestBody CarDto carDto){
-        Car mappedCar = carMapper.mapToSource(carDto);
-        carService.saveCar(mappedCar);
-        return mappedCar;
+    public ResponseEntity<CarDto> editCar(@RequestBody CarDto inputCar){
+      var mappedCar = carMapper.mapToSource(inputCar);
+      carService.saveCar(mappedCar);
+      return new ResponseEntity<>(inputCar, HttpStatus.OK);
     }
 }
