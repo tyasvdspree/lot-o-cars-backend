@@ -127,4 +127,10 @@ public class AgreementController {
         return new ResponseEntity<>(agreementMapper.mapToDestination(agreement.get()), HttpStatus.OK);
     }
 
+    @PutMapping("/payment")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<AgreementDto> payAgreement(@RequestBody AgreementDto agreementDto){
+        Agreement agreement = agreementService.setPayment(agreementMapper.mapToSource(agreementDto).getId());
+        return new ResponseEntity<>(agreementMapper.mapToDestination(agreement), HttpStatus.OK);
+    }
 }
