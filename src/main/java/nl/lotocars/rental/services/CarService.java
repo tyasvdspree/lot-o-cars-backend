@@ -8,6 +8,8 @@ import nl.lotocars.rental.entities.User;
 import nl.lotocars.rental.entities.UserPrincipal;
 import nl.lotocars.rental.reposetories.CarRepository;
 import nl.lotocars.rental.reposetories.LocationRepository;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +18,8 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
+
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.ignoreCase;
 
 @Service
 @Transactional(readOnly = true)
@@ -79,13 +83,42 @@ public class CarService {
     public Car registerCar(Car car, UserPrincipal loggedInUser){
         UserPrincipal user = (UserPrincipal) userService.loadUserByUsername(loggedInUser.getUsername());
         car.setUser(user.getUser());
-        car.setLocation(locationRepository.findById((long) 1).get());
+        car.setActive(true);
+        ExampleMatcher modelMatcher = ExampleMatcher.matching()
+                .withIgnorePaths("id")
+                .withMatcher("model", ignoreCase());
+        Example<Location> example = Example.of(car.getLocation(), modelMatcher);
+        locationRepository.findOne(example).ifPresentOrElse(
+                car::setLocation,
+                () -> car.setLocation(locationRepository.save(car.getLocation())));
         carRepository.save(car);
         return car;
     }
 
     @Transactional(readOnly = false)
     public Car saveCar(Car car){
-        return carRepository.save(car);
+        System.out.println();
+        ExampleMatcher modelMatcherCar = ExampleMatcher.matching()
+                .withMatcher("model", ignoreCase());
+        Example<Car> exampleCar = Example.of(car, modelMatcherCar);
+        var getCar = carRepository.findById(exampleCar.getProbe().getId()).orElseThrow(RuntimeException::new);
+
+        getCar.setRentPricePerHour(exampleCar.getProbe().getRentPricePerHour());
+        getCar.setLocation(exampleCar.getProbe().getLocation());
+        getCar.setAirco(exampleCar.getProbe().isAirco());
+        getCar.setNavigation(exampleCar.getProbe().isNavigation());
+        getCar.setSmokingIsAllowed(exampleCar.getProbe().isSmokingIsAllowed());
+
+        ExampleMatcher modelMatcherLocation = ExampleMatcher.matching()
+                .withIgnorePaths("id", "longitude", "latitude", "version", "createdDate", "lastModified")
+                .withMatcher("model", ignoreCase());
+        Example<Location> exampleLocation = Example.of(getCar.getLocation(), modelMatcherLocation);
+        locationRepository.findOne(exampleLocation).ifPresentOrElse(
+                getCar::setLocation,
+                () -> getCar.setLocation(locationRepository.save(getCar.getLocation())));
+
+        carRepository.save(getCar);
+
+        return getCar;
     }
 }

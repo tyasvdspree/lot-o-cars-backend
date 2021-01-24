@@ -60,4 +60,12 @@ public class CarImageController {
         CarImage carImage = carImageService.addImageFile(numberPlate, file);
         return new ResponseEntity<CarImage>(carImage, HttpStatus.OK);
     }
+
+    @DeleteMapping("/deleteImage")
+    public ResponseEntity<String> deleteImage(@RequestParam("imageId") String imageId){
+        carImageService.deleteImage(imageId);
+        return new ResponseEntity<>(imageId, HttpStatus.OK);
+    }
+
+
 }
