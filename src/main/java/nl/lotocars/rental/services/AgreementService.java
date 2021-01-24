@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import nl.lotocars.rental.Enum.AgreementStatus;
 import nl.lotocars.rental.Errors.AgreementNotFoundException;
 import nl.lotocars.rental.Errors.CarNotFoundException;
+import nl.lotocars.rental.dtos.BrokerFeeTotalDto;
+import nl.lotocars.rental.dtos.KeyValueDto;
 import nl.lotocars.rental.entities.Agreement;
 import nl.lotocars.rental.entities.Car;
 import nl.lotocars.rental.entities.User;
@@ -14,8 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -83,11 +88,37 @@ public class AgreementService {
             Integer startYear,
             Integer endYear
     ){
-        //UserPrincipal userPrincipal =
-        //        (UserPrincipal) userService.loadUserByUsername(loggedInUser.getUsername());
-        //User user = userPrincipal.getUser();
-
         return agreementRepository.findByRenteeAndYears(user, startYear, endYear);
+    }
+
+    public Collection<BrokerFeeTotalDto> getBrokerFeeTotals(
+            Integer startYear,
+            Integer endYear
+    ){
+        return agreementRepository.getBrokerFeeTotals(startYear, endYear);
+    }
+
+    public Collection<KeyValueDto> getGeneralCounts() {
+        Collection<KeyValueDto> result = new ArrayList<KeyValueDto>();
+        result.add(agreementRepository.getGeneralRenteeCount());
+        result.add(agreementRepository.getGeneralRenterCount());
+        result.add(reduceToKeyValuePair(
+                agreementRepository.getGeneralAverageCancellationsPerYear(),
+                "avg cancellations per year"));
+        result.add(reduceToKeyValuePair(
+                agreementRepository.getGeneralAverageInvolvedCarsPerYear(),
+                "avg involved cars per year"));
+        result.add(reduceToKeyValuePair(
+                agreementRepository.getGeneralAverageAgreementsPerYear(),
+                "avg agreements per year"));
+        return result;
+    }
+
+    private KeyValueDto reduceToKeyValuePair(Collection<KeyValueDto> pairs, String label) {
+        List<String> values = pairs.stream().map(KeyValueDto::getValue).collect(Collectors.toList());
+        double sum = values.stream().mapToDouble(ds -> Double.parseDouble(ds)).sum();
+        double avg = sum / pairs.size();
+        return new KeyValueDto(label, Double.toString(avg));
     }
 
     public Agreement setPayment(long id){
@@ -95,4 +126,5 @@ public class AgreementService {
         agreement.setPayed(true);
         return agreementRepository.save(agreement);
     }
+
 }

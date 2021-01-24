@@ -5,10 +5,7 @@ import nl.lotocars.rental.Enum.AgreementStatus;
 import nl.lotocars.rental.Errors.AgreementNotFoundException;
 import nl.lotocars.rental.Errors.CarNotFoundException;
 import nl.lotocars.rental.Errors.UserNotFoundException;
-import nl.lotocars.rental.dtos.AgreementCalculatedDto;
-import nl.lotocars.rental.dtos.AgreementDto;
-import nl.lotocars.rental.dtos.AgreementStatusDto;
-import nl.lotocars.rental.dtos.CarDto;
+import nl.lotocars.rental.dtos.*;
 import nl.lotocars.rental.entities.Agreement;
 import nl.lotocars.rental.entities.User;
 import nl.lotocars.rental.entities.UserPrincipal;
@@ -99,6 +96,26 @@ public class AgreementController {
                 .map(agreementCalculatedMapper::mapToDestination).collect(Collectors.toList());
         return new ResponseEntity<>(mappedAgreements, HttpStatus.OK);
     }
+
+    @GetMapping("/brokerfee_totals/{startYear}/{endYear}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Collection<BrokerFeeTotalDto>> getBrokerFeeTotalsOfYears(
+            @PathVariable Integer startYear,
+            @PathVariable Integer endYear
+    ){
+        Collection<BrokerFeeTotalDto> totals =
+                agreementService.getBrokerFeeTotals(startYear, endYear);
+
+        return new ResponseEntity<>(totals, HttpStatus.OK);
+    }
+
+    @GetMapping("/general_counts")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Collection<KeyValueDto>> getBrokerFeeTotalsOfYears(){
+        Collection<KeyValueDto> counts = agreementService.getGeneralCounts();
+        return new ResponseEntity<>(counts, HttpStatus.OK);
+    }
+
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
