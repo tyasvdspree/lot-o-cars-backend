@@ -83,6 +83,11 @@ public class CarImageService {
             newImage.setCarImage(byteObjects);
             carImageRepository.save(newImage);
         });
+    }
 
+    @Transactional(readOnly = false)
+    public void deleteImage(String imageId) {
+        var carImage = carImageRepository.getOne(Long.parseLong(imageId));
+        carImageRepository.delete(carImage);
     }
 }
