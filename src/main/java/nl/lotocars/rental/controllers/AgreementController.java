@@ -31,7 +31,8 @@ public class AgreementController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Collection<AgreementDto>> getAgreements(@RequestParam(required = false) boolean renter, @AuthenticationPrincipal UserPrincipal userPrincipal){
+    public ResponseEntity<Collection<AgreementDto>> getAgreements(@RequestParam(required = false) boolean renter,
+                                                                  @AuthenticationPrincipal UserPrincipal userPrincipal){
         Collection<Agreement> agreements = agreementService.findAgreements(userPrincipal, renter);
         Collection<AgreementDto> mappedAgreements = agreements.parallelStream()
                 .map(agreementMapper::mapToDestination).collect(Collectors.toList());

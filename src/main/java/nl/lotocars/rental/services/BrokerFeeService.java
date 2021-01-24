@@ -2,7 +2,9 @@ package nl.lotocars.rental.services;
 
 import lombok.RequiredArgsConstructor;
 import nl.lotocars.rental.Enum.AgreementStatus;
+import nl.lotocars.rental.entities.Agreement;
 import nl.lotocars.rental.entities.BrokerFeeRequest;
+import nl.lotocars.rental.entities.User;
 import nl.lotocars.rental.entities.UserPrincipal;
 import nl.lotocars.rental.reposetories.BrokerfeeRepository;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,12 @@ public class BrokerFeeService {
         Optional<BrokerFeeRequest> brokerFeeRequest = brokerfeeRepository.findById(id);
 
         return brokerFeeRequest;
+    }
+
+    public Collection<BrokerFeeRequest> findBrokerfeeRequests(UserPrincipal loggedInUser){
+        UserPrincipal userPrincipal = (UserPrincipal) userService.loadUserByUsername(loggedInUser.getUsername());
+        User user = userPrincipal.getUser();
+        return brokerfeeRepository.findByUser(user);
     }
 
     @Transactional(readOnly = false)

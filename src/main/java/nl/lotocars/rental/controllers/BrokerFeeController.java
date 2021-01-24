@@ -4,11 +4,13 @@ import lombok.RequiredArgsConstructor;
 import nl.lotocars.rental.dtos.BrokerFeeRequestDto;
 import nl.lotocars.rental.dtos.BrokerFeeStatusDto;
 import nl.lotocars.rental.entities.BrokerFeeRequest;
+import nl.lotocars.rental.entities.UserPrincipal;
 import nl.lotocars.rental.exceptions.AgreementNotFoundException;
 import nl.lotocars.rental.mapper.BrokerFeeMapper;
 import nl.lotocars.rental.services.BrokerFeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -33,6 +35,16 @@ public class BrokerFeeController {
         return new ResponseEntity<>(mappedBrokerFeeRequests, HttpStatus.OK);
     }
 
+    @GetMapping("/myBrokerfeeRequests")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Collection<BrokerFeeRequestDto>> getMyBrokerfeeRequests(
+            @AuthenticationPrincipal UserPrincipal userPrincipal) {
+        Collection<BrokerFeeRequest> agreements = brokerFeeService.findBrokerfeeRequests(userPrincipal);
+        Collection<BrokerFeeRequestDto> mappedBrokerfeeRequests = agreements.parallelStream()
+                .map(brokerFeeMapper::mapToDestination).collect(Collectors.toList());
+        return new ResponseEntity<Collection<BrokerFeeRequestDto>>(mappedBrokerfeeRequests, HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<BrokerFeeRequestDto> getBrokerfeeRequest(@PathVariable Long id){
@@ -47,7 +59,6 @@ public class BrokerFeeController {
     @PutMapping("/{id}/status")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<BrokerFeeRequestDto> setBrokerfeeStatus(@RequestBody BrokerFeeStatusDto newStatus){
-
         Optional<BrokerFeeRequest> brokerFeeRequest = brokerFeeService.setStatus(
                 newStatus.getId(),
                 newStatus.getStatus(),
