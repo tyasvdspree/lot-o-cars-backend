@@ -18,9 +18,6 @@ import static org.mockito.Mockito.when;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {CarImageRepository.class, CarImageService.class})
 public class CarImageServiceTest {
-    @Mock
-    CarImageRepository carImageRepository;
-
     @InjectMocks
     CarImageService carImageService;
 

@@ -1,6 +1,7 @@
-package nl.lotocars.rental.reposetories;
+package nl.lotocars.rental.repositories;
 
 import nl.lotocars.rental.entities.User;
+import nl.lotocars.rental.reposetories.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
