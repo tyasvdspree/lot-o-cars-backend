@@ -28,38 +28,47 @@ public class AgreementRepositoryTest {
 
     @Test
     void findBySearchOptions() {
+
     }
 
     @Test
     void findByRenter() {
+
     }
 
     @Test
     void findByRenteeAndYears() {
+
     }
 
     @Test
     void getBrokerFeeTotals() {
+
     }
 
 
     @Test
     void getGeneralRenteeCount() {
+
     }
 
     @Test
     void getGeneralRenterCount() {
+
     }
 
     @Test
     void getGeneralAverageCancellationsPerYear() {
+
     }
 
     @Test
     void getGeneralAverageAgreementsPerYear() {
+
     }
 
     @Test
     void getGeneralAverageInvolvedCarsPerYear() {
+
     }
 }

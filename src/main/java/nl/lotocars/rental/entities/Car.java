@@ -1,6 +1,8 @@
 package nl.lotocars.rental.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import nl.lotocars.rental.Enum.*;
 import org.hibernate.annotations.Type;
@@ -15,6 +17,8 @@ import java.util.Set;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity (name = "Car")
 @Table (name = "CAR")
 public class Car extends BaseEntity {

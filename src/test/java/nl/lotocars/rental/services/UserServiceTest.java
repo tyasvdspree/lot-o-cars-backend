@@ -2,6 +2,7 @@ package nl.lotocars.rental.services;
 
 import nl.lotocars.rental.entities.User;
 import nl.lotocars.rental.reposetories.UserRepository;
+import nl.lotocars.rental.security.JwtProvider;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
