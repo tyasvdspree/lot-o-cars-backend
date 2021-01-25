@@ -1,16 +1,19 @@
 package nl.lotocars.rental.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import nl.lotocars.rental.Enum.Transmission;
+import nl.lotocars.rental.Enum.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
-import java.util.Date;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity (name = "Car")
 @Table (name = "CAR")
 public class Car extends BaseEntity {
@@ -23,6 +26,7 @@ public class Car extends BaseEntity {
     @JoinColumn(name = "location_id")
     private Location location;
 
+
     @NotEmpty
     private String numberPlate;
 
@@ -31,17 +35,17 @@ public class Car extends BaseEntity {
     @NotEmpty
     private int modelYear;
     @NotEmpty
-    private String make;
+    private Make.make make;
     @NotEmpty
     private String model;
     @NotEmpty
-    private String body;
+    private CarBody.carBody body;
     @NotEmpty
-    private String color;
+    private Color.color color;
     @NotEmpty
     private Transmission.transmission transmission;
     @NotEmpty
-    private String fuel;
+    private Fuel.fuel fuel;
     @NotEmpty
     private double fuelUsage;
     @NotEmpty

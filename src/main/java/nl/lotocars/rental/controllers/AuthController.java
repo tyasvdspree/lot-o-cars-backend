@@ -7,6 +7,7 @@ import nl.lotocars.rental.dtos.RefreshTokenRequestDto;
 import nl.lotocars.rental.services.AuthService;
 import nl.lotocars.rental.services.RefreshTokenService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,7 +25,14 @@ public class AuthController {
 
     @PostMapping("/login")
     public AuthenticationResponseDto login(@RequestBody LoginRequestDto loginRequestDto) {
-        return authService.login(loginRequestDto);
+        try {
+            AuthenticationResponseDto authenticationResponseDto = authService.login(loginRequestDto);
+            return authenticationResponseDto;
+        }
+        catch (AuthenticationException e) {
+            AuthenticationResponseDto authenticationResponseDto = new AuthenticationResponseDto();
+            return authenticationResponseDto;
+        }
     }
 
     @PostMapping("/refresh/token")

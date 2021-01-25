@@ -2,16 +2,17 @@ package nl.lotocars.rental.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import nl.lotocars.rental.Errors.LotocarsException;
-import org.springframework.beans.factory.annotation.Value;
+import nl.lotocars.rental.exceptions.LotocarsException;
+import nl.lotocars.rental.entities.UserPrincipal;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import java.security.*;
+import java.security.Key;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.PublicKey;
 import java.sql.Date;
 import java.time.Instant;
 
@@ -22,22 +23,20 @@ import static java.util.Date.from;
 public class JwtProvider {
 
     private KeyStore keyStore;
-    //@Value("${jwt.expiration.time}")
+//    @Value("${jwt.expiration.time}")
     private final Long jwtExpirationInMillis = 90000000L;
 
-    private Key key;
-
-    @PostConstruct
-    public void init() {
-        key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+    private Key getSigningKey() {
+        byte[] keyBytes = Decoders.BASE64.decode("mySecretKeymySecretKeymySecretKeymySecretKeymySecretKeymySecretKey");
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 
     public String generateToken(Authentication authentication) {
-        User principal = (User) authentication.getPrincipal();
+        UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
         return Jwts.builder()
                 .setSubject(principal.getUsername())
                 .setIssuedAt(from(Instant.now()))
-                .signWith(key)
+                .signWith(getSigningKey())
                 .setExpiration(Date.from(Instant.now().plusMillis(jwtExpirationInMillis)))
                 .compact();
     }
@@ -46,13 +45,13 @@ public class JwtProvider {
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(from(Instant.now()))
-                .signWith(key)
+                .signWith(getSigningKey())
                 .setExpiration(Date.from(Instant.now().plusMillis(jwtExpirationInMillis)))
                 .compact();
     }
 
     public boolean validateToken(String jwt) {
-        parser().setSigningKey(key).parseClaimsJws(jwt);
+        parser().setSigningKey(getSigningKey()).parseClaimsJws(jwt);
         return true;
     }
 
@@ -67,7 +66,7 @@ public class JwtProvider {
 
     public String getUsernameFromJwt(String token) {
         Claims claims = parser()
-                .setSigningKey(key)
+                .setSigningKey(getSigningKey())
                 .parseClaimsJws(token)
                 .getBody();
 

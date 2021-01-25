@@ -2,10 +2,9 @@ package nl.lotocars.rental.entities;
 
 import lombok.Getter;
 import lombok.Setter;
+import nl.lotocars.rental.Enum.AgreementStatus;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.Date;
 
 @Getter
@@ -34,4 +33,8 @@ public class Agreement extends BaseEntity {
     private double brokerFee;
 
     private boolean isPayed;
+
+    private AgreementStatus.agreemtStatus status;
+
+    private String reason;
 }
