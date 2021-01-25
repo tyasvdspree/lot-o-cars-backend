@@ -38,13 +38,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-security:2.4.0" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-config:5.4.1" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-core:5.4.1" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-web:5.4.1" level="project" />
-    <orderEntry type="library" name="Maven: io.jsonwebtoken:jjwt-api:0.10.5" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: io.jsonwebtoken:jjwt-impl:0.10.5" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: io.jsonwebtoken:jjwt-jackson:0.10.5" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-data-jdbc:2.4.0" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-jdbc:2.1.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-relational:2.1.1" level="project" />
