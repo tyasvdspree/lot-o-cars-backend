@@ -116,6 +116,8 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.platform:junit-platform-launcher:1.7.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.platform:junit-platform-engine:1.7.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.platform:junit-platform-suite-api:1.7.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.13.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:2.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.mockito:mockito-core:2.21.0" level="project" />
     <orderEntry type="library" name="Maven: net.bytebuddy:byte-buddy:1.10.18" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: net.bytebuddy:byte-buddy-agent:1.10.18" level="project" />
@@ -157,8 +159,6 @@
     <orderEntry type="library" scope="RUNTIME" name="Maven: io.jsonwebtoken:jjwt-jackson:0.10.5" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.11.3" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.11.3" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.13.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:2.2" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.sonar.plugins:sonar-jacoco-plugin:3.2.1" level="project" />
     <orderEntry type="library" name="Maven: org.jacoco:org.jacoco.core:0.5.10.201208310627" level="project" />
     <orderEntry type="library" name="Maven: asm:asm:3.3.1" level="project" />
