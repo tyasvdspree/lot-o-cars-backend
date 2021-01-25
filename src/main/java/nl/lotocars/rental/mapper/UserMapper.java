@@ -1,6 +1,8 @@
 package nl.lotocars.rental.mapper;
 
+import nl.lotocars.rental.dtos.LocationDto;
 import nl.lotocars.rental.dtos.UserDto;
+import nl.lotocars.rental.entities.Location;
 import nl.lotocars.rental.entities.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -17,6 +19,10 @@ public abstract class UserMapper {
 
     @Mapping(target = "roles", ignore = true)
     public abstract User mapToSource(UserDto destination);
+
+    public abstract LocationDto mapToCarDestination(Location source);
+
+    public abstract Location mapToCarSource(LocationDto destination);
 
     @Named("userTransformation")
     protected Collection<String> mapRoles (User source) {

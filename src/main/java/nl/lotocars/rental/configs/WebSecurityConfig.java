@@ -1,10 +1,13 @@
 package nl.lotocars.rental.configs;
 
 import lombok.AllArgsConstructor;
+import nl.lotocars.rental.Enum.Role;
 import nl.lotocars.rental.security.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,23 +25,37 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
+    private static final String USER_ID_PATH = "/users/{id}/**";
+    private static final String ADMIN_PATH = "/admin/**";
+    private static final String BROKERFEE_PATH = "/brokerfee/**";
+
     @Bean(BeanIds.AUTHENTICATION_MANAGER)
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 
+    @Bean
+    protected AuthenticationProvider authenticationProvider(PasswordEncoder passwordEncoder) {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setPasswordEncoder(passwordEncoder);
+        authProvider.setUserDetailsService(userDetailsService);
+        return authProvider;
+    }
+
     @Override
     public void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
+                .requiresChannel()
+                .anyRequest().requiresSecure()
+                .and()
                 .cors()
                 .and()
-                .csrf().disable();
-//                .authorizeRequests()
-//                .antMatchers("/logout/")//, "/renting**", "/user**", "/car**")
-//                .permitAll();
-//                .anyRequest()
-//                .authenticated();
+                .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/login", "/renting**", "/user**", "/car**", "/agreement**").permitAll()
+                .antMatchers().authenticated()
+                .antMatchers(BROKERFEE_PATH,ADMIN_PATH).hasRole(Role.ADMIN.name());
         httpSecurity.addFilterBefore(jwtAuthenticationFilter,
                 UsernamePasswordAuthenticationFilter.class);
     }

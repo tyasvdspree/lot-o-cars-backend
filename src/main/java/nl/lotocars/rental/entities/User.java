@@ -41,8 +41,10 @@ public class User extends BaseEntity {
     @JoinColumn(name = "location_id")
     private Location location;
 
+    @NotEmpty
     private double brokerFee;
 
+    @NotEmpty
     private boolean isActive;
 
     public void addRole(Role role){

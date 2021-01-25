@@ -2,11 +2,9 @@ package nl.lotocars.rental.dtos;
 
 import lombok.Getter;
 import lombok.Setter;
-import nl.lotocars.rental.Enum.Transmission;
+import nl.lotocars.rental.Enum.*;
 import nl.lotocars.rental.entities.Location;
 import nl.lotocars.rental.entities.User;
-
-import java.util.Date;
 
 @Getter
 @Setter
@@ -19,12 +17,12 @@ public class CarDto {
     private String numberPlate;
     private int countryCode;
     private int modelYear;
-    private String make;
+    private Make.make make;
     private String model;
-    private String body;
-    private String color;
+    private CarBody.carBody body;
+    private Color.color color;
     private Transmission.transmission transmission;
-    private String fuel;
+    private Fuel.fuel fuel;
     private double fuelUsage;
     private int doors;
     private int seats;
@@ -34,4 +32,5 @@ public class CarDto {
     private boolean airco;
     private boolean smokingIsAllowed;
     private boolean isActive;
+    private Long mainCarImageId;
 }
