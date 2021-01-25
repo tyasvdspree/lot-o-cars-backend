@@ -1,11 +1,10 @@
 package nl.lotocars.rental.controllers;
 
 import lombok.RequiredArgsConstructor;
-import nl.lotocars.rental.Enum.AgreementStatus;
-import nl.lotocars.rental.Errors.AgreementNotFoundException;
-import nl.lotocars.rental.Errors.CarNotFoundException;
-import nl.lotocars.rental.Errors.UserNotFoundException;
+import nl.lotocars.rental.exceptions.AgreementNotFoundException;
 import nl.lotocars.rental.dtos.*;
+import nl.lotocars.rental.dtos.AgreementDto;
+import nl.lotocars.rental.dtos.AgreementStatusDto;
 import nl.lotocars.rental.entities.Agreement;
 import nl.lotocars.rental.entities.User;
 import nl.lotocars.rental.entities.UserPrincipal;
@@ -38,7 +37,8 @@ public class AgreementController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Collection<AgreementDto>> getAgreements(@RequestParam(required = false) boolean renter, @AuthenticationPrincipal UserPrincipal userPrincipal){
+    public ResponseEntity<Collection<AgreementDto>> getAgreements(@RequestParam(required = false) boolean renter,
+                                                                  @AuthenticationPrincipal UserPrincipal userPrincipal){
         Collection<Agreement> agreements = agreementService.findAgreements(userPrincipal, renter);
         Collection<AgreementDto> mappedAgreements = agreements.parallelStream()
                 .map(agreementMapper::mapToDestination).collect(Collectors.toList());

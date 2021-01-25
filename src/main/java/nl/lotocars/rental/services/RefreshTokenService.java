@@ -1,7 +1,7 @@
 package nl.lotocars.rental.services;
 
 import lombok.RequiredArgsConstructor;
-import nl.lotocars.rental.Errors.LotocarsException;
+import nl.lotocars.rental.exceptions.LotocarsException;
 import nl.lotocars.rental.entities.RefreshToken;
 import nl.lotocars.rental.reposetories.RefreshTokenRepository;
 import org.springframework.stereotype.Service;
