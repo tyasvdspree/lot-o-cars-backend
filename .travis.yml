@@ -1,0 +1,15 @@
+language: java
+
+jdk:
+- oraclejdk11
+
+sudo: false
+
+# Run the mvn install command
+install:
+  - mvn install
+
+# cache the build tool's caches
+cache:
+  directories:
+  - $HOME/.m2
