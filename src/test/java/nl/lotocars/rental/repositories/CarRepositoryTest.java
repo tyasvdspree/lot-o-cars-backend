@@ -1,6 +1,6 @@
 package nl.lotocars.rental.repositories;
 
-import nl.lotocars.rental.Errors.CarNotFoundException;
+import nl.lotocars.rental.exceptions.CarNotFoundException;
 import nl.lotocars.rental.entities.Car;
 import nl.lotocars.rental.reposetories.CarRepository;
 import org.junit.jupiter.api.AfterEach;
