@@ -124,6 +124,7 @@ public class AgreementService {
     public Agreement setPayment(long id){
         Agreement agreement = agreementRepository.getOne(id);
         agreement.setPayed(true);
+        agreement.setStatus(AgreementStatus.agreemtStatus.FINISHED);
         return agreementRepository.save(agreement);
     }
 
