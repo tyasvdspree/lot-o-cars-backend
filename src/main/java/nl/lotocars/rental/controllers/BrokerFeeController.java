@@ -10,6 +10,7 @@ import nl.lotocars.rental.mapper.BrokerFeeMapper;
 import nl.lotocars.rental.services.BrokerFeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticatedPrincipal;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("brokkerfee")
+@RequestMapping("/brokerfee")
 public class BrokerFeeController {
 
     private final BrokerFeeService brokerFeeService;
@@ -54,6 +55,16 @@ public class BrokerFeeController {
         }
         BrokerFeeRequestDto brokerFeeDto = brokerFeeMapper.mapToDestination(brokerFeeRequest.get());
         return new ResponseEntity<>(brokerFeeDto, HttpStatus.OK);
+    }
+
+    @PostMapping("/")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<BrokerFeeRequestDto> createBrokerFeeRequest(@RequestBody BrokerFeeRequestDto brokerFeeRequest, @AuthenticationPrincipal UserPrincipal userPrincipal){
+        BrokerFeeRequest brokerFeeRequestEnt = brokerFeeMapper.mapToSource(brokerFeeRequest);
+        brokerFeeRequestEnt = brokerFeeService.createBrokerFeeRequest(brokerFeeRequestEnt, userPrincipal);
+
+        BrokerFeeRequestDto brokerFeeDto = brokerFeeMapper.mapToDestination(brokerFeeRequestEnt);
+        return new ResponseEntity<>(brokerFeeDto, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}/status")

@@ -9,9 +9,4 @@ public class SecurityUtil {
         UserPrincipal principal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return principal.getUserId() == userId;
     }
-
-    public static  boolean hasRole(String role){
-        var principal = (UserPrincipal)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return principal.hasRole(role);
-    }
 }

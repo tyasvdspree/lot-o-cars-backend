@@ -1,6 +1,7 @@
 package nl.lotocars.rental.controllers;
 
 import lombok.RequiredArgsConstructor;
+import nl.lotocars.rental.Enum.Role;
 import nl.lotocars.rental.dtos.BrokerFeeRequestDto;
 import nl.lotocars.rental.dtos.BrokerFeeStatusDto;
 import nl.lotocars.rental.entities.BrokerFeeRequest;
@@ -27,8 +28,8 @@ public class AdminController {
 
     private final UserService userService;
 
-    @PostMapping("/user/{id}/addrole")
-    public ResponseEntity addRole(@PathVariable("id") Long userId, @Valid @RequestBody Long roleId, BindingResult result) {
+    @PostMapping("/user/{id}/setRole")
+    public ResponseEntity addRole(@PathVariable("id") Long userId, @Valid @RequestBody Role role, BindingResult result) {
         if(SecurityUtil.isAuthenticatedUser(userId)){
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         }
@@ -37,23 +38,11 @@ public class AdminController {
         }
 
         try {
-            userService.addRole(userId, roleId);
+            userService.setRole(userId, role);
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         } catch (UserNotFoundException e) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
 
-    @PostMapping("user/{id}/removerole")
-    public ResponseEntity removeRole(@PathVariable("id") Long userId, @Valid @RequestBody Long roleId, BindingResult result) {
-        if(SecurityUtil.isAuthenticatedUser(userId)) return new ResponseEntity(HttpStatus.UNAUTHORIZED);
-        if(result.hasErrors()) return new ResponseEntity(HttpStatus.BAD_REQUEST);
-
-        try {
-            userService.removeRole(userId, roleId);
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
-        } catch (UserNotFoundException e) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
-    }
 }

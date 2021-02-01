@@ -54,8 +54,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/login", "/renting**", "/user**", "/car**", "/agreement**").permitAll()
-                .antMatchers().authenticated()
-                .antMatchers(BROKERFEE_PATH,ADMIN_PATH).hasRole(Role.ADMIN.name());
+                .antMatchers(BROKERFEE_PATH).authenticated()
+                .antMatchers(BROKERFEE_PATH+"/{id}/status",ADMIN_PATH).hasRole(Role.ADMIN.name());
         httpSecurity.addFilterBefore(jwtAuthenticationFilter,
                 UsernamePasswordAuthenticationFilter.class);
     }

@@ -2,6 +2,7 @@ package nl.lotocars.rental.dtos;
 
 import lombok.Getter;
 import lombok.Setter;
+import nl.lotocars.rental.Enum.Role;
 import nl.lotocars.rental.entities.Location;
 
 import java.util.Collection;
@@ -14,7 +15,7 @@ public class UserDto {
 
     private Location location;
 
-    private Collection<String> roles;
+    private Collection<Role> roles;
 
     private String firstname;
 
@@ -25,5 +26,7 @@ public class UserDto {
     private String emailaddress;
 
     private String password;
+
+    private double brokerFee;
 
 }

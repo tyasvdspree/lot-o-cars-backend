@@ -2,12 +2,10 @@ package nl.lotocars.rental.services;
 
 import lombok.RequiredArgsConstructor;
 import nl.lotocars.rental.entities.Location;
-import nl.lotocars.rental.entities.Role;
 import nl.lotocars.rental.entities.User;
 import nl.lotocars.rental.entities.UserPrincipal;
 import nl.lotocars.rental.exceptions.UserNotFoundException;
 import nl.lotocars.rental.reposetories.LocationRepository;
-import nl.lotocars.rental.reposetories.RoleRepository;
 import nl.lotocars.rental.reposetories.UserRepository;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -31,7 +29,6 @@ public class UserService implements UserDetailsService {
     private static int workload = 10;
     private final UserRepository userRepository;
     private final LocationRepository locationRepository;
-    private final RoleRepository roleRepository;
 
     public Collection<User> getUsers() {
         return userRepository.findAll();
@@ -122,20 +119,16 @@ public class UserService implements UserDetailsService {
 
 
     @Transactional(readOnly = false)
-    public void addRole(long userId, long roleId) throws UserNotFoundException {
+    public void setRole(long userId, nl.lotocars.rental.Enum.Role role) throws UserNotFoundException {
         User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
-        Role role = roleRepository.findById(roleId).orElseThrow(UserNotFoundException::new);
 
-        user.addRole(role);
+        user.setRole(role);
         userRepository.save(user);
     }
 
     @Transactional(readOnly = false)
-    public void removeRole(long userId, long roleId) throws UserNotFoundException {
-        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
-        Role role = roleRepository.findById(roleId).orElseThrow(UserNotFoundException::new);
-
-        user.removeRole(role);
+    public void setBrokerfee(User user, double fee){
+        user.setBrokerFee(fee);
         userRepository.save(user);
     }
 }

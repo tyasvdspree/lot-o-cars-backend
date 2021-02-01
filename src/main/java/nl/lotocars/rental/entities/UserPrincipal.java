@@ -3,6 +3,7 @@ package nl.lotocars.rental.entities;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import nl.lotocars.rental.Enum.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,24 +23,13 @@ public class UserPrincipal implements UserDetails {
         return user.getId();
     }
 
-    public Boolean hasRole(String role){
-        return user.getRoles().stream().anyMatch(x -> x.getName() == role);
-    }
-
     public User getUser() {
         return user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<Role> roles = user.getRoles();
-        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-
-        for (Role role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
-        }
-
-        return authorities;
+        return user.getRole().getAuthorities();
     }
 
     @Override

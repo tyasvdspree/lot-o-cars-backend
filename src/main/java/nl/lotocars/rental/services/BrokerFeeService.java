@@ -41,6 +41,7 @@ public class BrokerFeeService {
     public BrokerFeeRequest createBrokerFeeRequest(BrokerFeeRequest request, UserPrincipal loggedInUser){
         UserPrincipal user = (UserPrincipal) userService.loadUserByUsername(loggedInUser.getUsername());
         request.setUser(user.getUser());
+        request.setStatus(AgreementStatus.agreemtStatus.PENDING);
         return brokerfeeRepository.save(request);
     }
 
@@ -54,6 +55,9 @@ public class BrokerFeeService {
                 request.setStatus(status);
                 request.setReason(reason);
                 brokerfeeRepository.save(request);
+            }
+            if(request.getStatus() == AgreementStatus.agreemtStatus.APPROVED){
+                userService.setBrokerfee(request.getUser(), request.getProposedFee());
             }
         }
 

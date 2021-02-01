@@ -1,5 +1,6 @@
 package nl.lotocars.rental.mapper;
 
+import nl.lotocars.rental.Enum.Role;
 import nl.lotocars.rental.dtos.AgreementDto;
 import nl.lotocars.rental.dtos.CarDto;
 import nl.lotocars.rental.dtos.UserDto;
@@ -25,15 +26,8 @@ public abstract class AgreementMapper {
 
     public abstract Car mapToCarSource(CarDto destination);
 
-    @Mapping(target = "roles", expression = "java(mapRoles(source))")
     public abstract UserDto mapToUserDestination(User source);
 
-    @Mapping(target = "roles", ignore = true)
     public abstract User mapToUserSource(UserDto destination);
-
-    @Named("userTransformation")
-    protected Collection<String> mapRoles (User source) {
-        return source.getRoles().stream().map(x -> x.getName()).collect(Collectors.toList());
-    }
 }
 

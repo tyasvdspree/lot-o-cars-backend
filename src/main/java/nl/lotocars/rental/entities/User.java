@@ -2,10 +2,10 @@ package nl.lotocars.rental.entities;
 
 import lombok.Getter;
 import lombok.Setter;
+import nl.lotocars.rental.Enum.Role;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -29,13 +29,8 @@ public class User extends BaseEntity {
     private String phonenumber;
     private String emailaddress;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "location_id")
@@ -46,11 +41,4 @@ public class User extends BaseEntity {
 
     @NotEmpty
     private boolean isActive;
-
-    public void addRole(Role role){
-        roles.add(role);
-    }
-    public void removeRole(Role role){
-        roles.remove(role);
-    }
 }

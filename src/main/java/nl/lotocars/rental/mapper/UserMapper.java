@@ -1,5 +1,6 @@
 package nl.lotocars.rental.mapper;
 
+import nl.lotocars.rental.Enum.Role;
 import nl.lotocars.rental.dtos.LocationDto;
 import nl.lotocars.rental.dtos.UserDto;
 import nl.lotocars.rental.entities.Location;
@@ -14,18 +15,11 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 public abstract class UserMapper {
 
-    @Mapping(target = "roles", expression = "java(mapRoles(source))")
     public abstract UserDto mapToDestination(User source);
 
-    @Mapping(target = "roles", ignore = true)
     public abstract User mapToSource(UserDto destination);
 
     public abstract LocationDto mapToCarDestination(Location source);
 
     public abstract Location mapToCarSource(LocationDto destination);
-
-    @Named("userTransformation")
-    protected Collection<String> mapRoles (User source) {
-        return source.getRoles().stream().map(x -> x.getName()).collect(Collectors.toList());
-    }
 }
